@@ -75,7 +75,7 @@ Concrete deliverables requested by the prompt:
 
 - Read documents under `docs/`: done for `cartograph_implementation_spec.md` and `cartograph_proposal.md`; SVGs were listed as supporting diagrams.
 - Create a new markdown plan based on `cartograph_implementation_spec.md`: done in this file.
-- Implement the spec: partially complete. A runnable v1 skeleton and demo-capable implementation exists, but several full-spec semantics still need stronger implementation before calling the goal complete.
+- Implement the spec: repo/runtime implementation is complete for v1 acceptance, including live Vertex ADK eval verification; final submission readiness still depends on external artifacts.
 - Keep the plan updated if paused: this file reflects current status and remaining gaps.
 
 ### Prompt-to-Artifact Checklist
