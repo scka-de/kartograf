@@ -52,6 +52,9 @@ cartograph demo visualize <audit_id>
 
 The full cold prepare path can take up to 30 minutes with live HuggingFace, StackExchange, GitHub, and Gemini calls. The fallback path uses committed fixtures for non-customer-service corpora and still emits `corpus_mode` so the recording can be narrated honestly.
 
+For final publication and the four-minute recording flow, use
+[docs/submission_checklist.md](docs/submission_checklist.md).
+
 ## Development
 
 ```bash
