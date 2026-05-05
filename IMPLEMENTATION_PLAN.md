@@ -113,12 +113,12 @@ Concrete deliverables requested by the prompt:
 | Tests and quality gates | `.venv/bin/python -m pytest`, `ruff`, `mypy cartograph/core` | Latest full suite: 51 passed, 1 skipped, 52 collected; ruff and mypy pass. | Done |
 | Live e2e with real pass rates | `tests/test_e2e_smoke.py`, `CARTOGRAPH_RUN_E2E=1 ... pytest -m e2e` | Test is actionable but skipped until Google credentials/project config can produce non-null ADK pass rates. | Blocked externally |
 | Submission recording | External artifact | Not present in workspace; requires human recording. | Blocked externally |
-| Public GitHub repository and devpost link | External publishing artifacts | Local git history exists, but no public GitHub remote/repo or devpost URL is available. | Blocked externally |
+| GitHub repository and devpost link | External publishing artifacts | Local git history exists. A private GitHub repo is acceptable as an interim backup/review target, but `gh auth status` currently reports invalid local tokens for `scka-de` and `station932`, so repo creation/push is blocked until `gh auth login -h github.com` is refreshed. Final submission still requires a public GitHub repo and devpost URL. | Blocked externally |
 
 Current high-confidence evidence:
 
 - Package skeleton, CLI, agents, MCP boundary modules, core modules, demo modules, fixtures, README, tests, and acceptance script exist.
-- Local git repository exists; initial implementation snapshot committed as `78739a3 Initial Cartograph implementation`; no public remote has been created.
+- Local git repository exists; initial implementation snapshot committed as `78739a3 Initial Cartograph implementation`; no remote has been created because local GitHub CLI auth is invalid.
 - Final script `bash scripts/run_demo.sh` exits 0 and checks the required files/stdout contract with `customer-service` in `corpus_mode == "real"`.
 - The customer-service deep dive now invokes Generator once, re-audits the merged original-plus-generated evalset, and terminates at coverage `1.00`.
 - The `cartograph audit` CLI path now streams decision rows as they are written through a scoped observer hook.
@@ -132,11 +132,11 @@ Remaining gaps before the full spec can honestly be called complete:
 - The suite exceeds the spec target of 30 collected tests and includes `test_agent_generator.py` plus a real opt-in `test_e2e_smoke.py`, but the e2e test is intentionally skipped until live Google credentials/caches are available.
 - Fleet fallback behavior is now honest: `customer-service` uses the real cached HuggingFace Bitext path; StackExchange `money` and GitHub `psf/requests` live paths were verified after full extras install; bundled fallback fixtures now satisfy the 30-item spec assumption.
 - Real `adk eval` is now wired against the checked-out customer-service sample and converted evalset, but pass-rate numbers remain `None` because this environment has neither a reachable Google OAuth path in the sandbox nor a verified Gemini Developer API key. The escalated live attempt reached Vertex and failed because the selected Google project has `aiplatform.googleapis.com` disabled (`403 PERMISSION_DENIED` / `SERVICE_DISABLED`). Enabling Agent Platform API or setting `GOOGLE_API_KEY` with `GOOGLE_GENAI_USE_VERTEXAI=0` is required to verify pass rates.
-- Submission-readiness items remain out of band: 4-minute recording, public GitHub repo, and devpost link.
+- Submission-readiness items remain out of band: 4-minute recording, public GitHub repo, and devpost link. A private GitHub repo can be created first once `gh auth login -h github.com` succeeds.
 
 ## Known Constraints
 
-- This workspace started without `.git`; local git metadata and an initial commit now exist, but no public remote has been created.
+- This workspace started without `.git`; local git metadata and an initial commit now exist, but no remote has been created because `gh` has invalid tokens in this shell.
 - External APIs and Gemini may be unavailable in the sandbox. The implementation includes deterministic local fallbacks so tests and demo scaffolding remain runnable without credentials.
 - On macOS x86_64, `umap-learn==0.5.5` may require building `llvmlite` from source with CMake. The `full` extra skips UMAP on that platform and uses Cartograph's persisted projection reducer fallback; Linux and other platforms can still install the pinned UMAP package.
 - Full submission readiness still requires a human-recorded 4-minute demo and public GitHub/devpost steps.
