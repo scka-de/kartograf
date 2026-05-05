@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 import asyncio
+import copy
+import json
+from pathlib import Path
 
 import numpy as np
 
@@ -136,10 +139,53 @@ def format_for_target(audit_id: str, accepted: list[GeneratedCase], eval_path: s
         output = source.replace(".evalset.json", "_cartograph_generated.evalset.json")
     else:
         output = str(storage.audit_dir(audit_id) / "cartograph_generated.evalset.json")
+    session_input = _session_input_template(eval_path)
     eval_io_adk.write_evalset(
-        output, [case.model_dump(mode="json") for case in accepted], merge=False
+        output,
+        [_generated_to_current_eval_case(case, session_input) for case in accepted],
+        merge=False,
     )
     return output
+
+
+def _generated_to_current_eval_case(case: GeneratedCase, session_input: dict) -> dict:
+    return {
+        "eval_id": case.raw.get("eval_id", case.id),
+        "conversation": [
+            {
+                "user_content": {
+                    "parts": [{"text": case.content}],
+                    "role": "user",
+                },
+                "final_response": {
+                    "parts": [
+                        {
+                            "text": case.raw.get(
+                                "expected_final_response",
+                                "Handle the user request according to policy.",
+                            )
+                        }
+                    ],
+                    "role": "model",
+                },
+            }
+        ],
+        "session_input": copy.deepcopy(session_input),
+    }
+
+
+def _session_input_template(eval_path: str) -> dict:
+    default = {"app_name": "cartograph", "user_id": "user", "state": {}}
+    path = Path(eval_path)
+    if not path.exists():
+        return default
+    payload = json.loads(path.read_text())
+    cases = payload if isinstance(payload, list) else payload.get("eval_cases", [])
+    for case in cases:
+        session_input = case.get("session_input")
+        if isinstance(session_input, dict) and session_input:
+            return copy.deepcopy(session_input)
+    return default
 
 
 def _local_candidates(region_id: str, label: str, exemplars: list[str], n: int) -> list[str]:

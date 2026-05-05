@@ -1,5 +1,5 @@
 {
-  "audit_id": "audit_90ed13456cac",
+  "audit_id": "audit_c390577a669a",
   "target_agent": "data/adk_samples/python/agents/customer-service/customer_service",
   "corpus_source": "bitext",
   "corpus_size": 30,
@@ -712,7 +712,7 @@
     "pass_rate": 0.0,
     "stdout": "Using evaluation criteria: criteria={'tool_trajectory_avg_score': 1.0, 'response_match_score': 0.8} custom_metrics=None user_simulator_config=None",
     "stderr": "ADK runtime warnings suppressed",
-    "duration_seconds": 20.15266421996057
+    "duration_seconds": 21.289382364950143
   },
   "eval_run_after": {
     "label": "after",
@@ -720,7 +720,7 @@
       "adk",
       "eval",
       "data/adk_samples/python/agents/customer-service/customer_service",
-      "data/audits/audit_90ed13456cac/eval_run_after.evalset.json"
+      "data/audits/audit_c390577a669a/eval_run_after.evalset.json"
     ],
     "exit_code": 0,
     "pass_count": 0,
@@ -728,12 +728,12 @@
     "pass_rate": 0.0,
     "stdout": "Using evaluation criteria: criteria={'tool_trajectory_avg_score': 1.0, 'response_match_score': 0.8} custom_metrics=None user_simulator_config=None",
     "stderr": "ADK runtime warnings suppressed",
-    "duration_seconds": 39.56680223206058
+    "duration_seconds": 37.76102915802039
   },
   "decisions": [
     {
       "step": 1,
-      "timestamp": "2026-05-05T19:54:29.235943",
+      "timestamp": "2026-05-05T20:23:06.853115",
       "action": "ingest",
       "inputs": {
         "corpus_source": "bitext",
@@ -746,7 +746,7 @@
     },
     {
       "step": 2,
-      "timestamp": "2026-05-05T19:54:29.270205",
+      "timestamp": "2026-05-05T20:23:06.882478",
       "action": "invoke_mapper",
       "inputs": {
         "corpus_source": "bitext"
@@ -765,7 +765,7 @@
     },
     {
       "step": 3,
-      "timestamp": "2026-05-05T19:54:31.663128",
+      "timestamp": "2026-05-05T20:23:09.149878",
       "action": "invoke_auditor",
       "inputs": {
         "eval_path": "data/precomputed/customer-service.evalset.json"
@@ -801,7 +801,7 @@
     },
     {
       "step": 4,
-      "timestamp": "2026-05-05T19:54:31.670264",
+      "timestamp": "2026-05-05T20:23:09.156449",
       "action": "decide_continue",
       "inputs": {
         "threshold": 0.75
@@ -814,7 +814,7 @@
     },
     {
       "step": 5,
-      "timestamp": "2026-05-05T19:54:32.551691",
+      "timestamp": "2026-05-05T20:23:09.996235",
       "action": "invoke_generator",
       "inputs": {
         "region_ids": [
@@ -836,10 +836,10 @@
     },
     {
       "step": 6,
-      "timestamp": "2026-05-05T19:54:33.142204",
+      "timestamp": "2026-05-05T20:23:10.424112",
       "action": "invoke_auditor",
       "inputs": {
-        "eval_path": "data/audits/audit_90ed13456cac/eval_run_after.evalset.json"
+        "eval_path": "data/audits/audit_c390577a669a/eval_run_after.evalset.json"
       },
       "outputs": {
         "coverage_score": 1.0,
@@ -851,7 +851,7 @@
     },
     {
       "step": 7,
-      "timestamp": "2026-05-05T19:54:33.148808",
+      "timestamp": "2026-05-05T20:23:10.433146",
       "action": "decide_terminate",
       "inputs": {
         "threshold": 0.75
@@ -864,11 +864,11 @@
     },
     {
       "step": 8,
-      "timestamp": "2026-05-05T19:55:12.743179",
+      "timestamp": "2026-05-05T20:23:48.211284",
       "action": "format_final_report",
       "inputs": {},
       "outputs": {
-        "audit_id": "audit_90ed13456cac"
+        "audit_id": "audit_c390577a669a"
       },
       "reason": "final report ready"
     }
@@ -876,5 +876,5 @@
   "warnings": [
     "14 eval assignments had distance > 0.35"
   ],
-  "created_at": "2026-05-05T19:54:09"
+  "created_at": "2026-05-05T20:22:45"
 }

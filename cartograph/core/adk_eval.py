@@ -10,6 +10,8 @@ import time
 from pathlib import Path
 from typing import Any
 
+from dotenv import load_dotenv
+
 from .models import EvalRunResult
 
 
@@ -103,6 +105,7 @@ def _adk_executable() -> str:
 
 
 def _adk_env(agent_path: str) -> dict[str, str]:
+    load_dotenv(Path.cwd() / ".env")
     env = os.environ.copy()
     if env.get("GOOGLE_API_KEY") and "GOOGLE_GENAI_USE_VERTEXAI" not in env:
         env["GOOGLE_GENAI_USE_VERTEXAI"] = "0"

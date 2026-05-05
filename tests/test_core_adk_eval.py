@@ -44,3 +44,17 @@ def test_adk_env_preserves_explicit_vertex_setting(tmp_path, monkeypatch):
     agent_dir.mkdir()
     env = _adk_env(str(agent_dir))
     assert env["GOOGLE_GENAI_USE_VERTEXAI"] == "1"
+
+
+def test_adk_env_loads_dotenv_before_subprocess_env(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.delenv("GOOGLE_API_KEY", raising=False)
+    monkeypatch.delenv("GOOGLE_GENAI_USE_VERTEXAI", raising=False)
+    (tmp_path / ".env").write_text("GOOGLE_API_KEY=test-key\n")
+    agent_dir = tmp_path / "agent"
+    agent_dir.mkdir()
+
+    env = _adk_env(str(agent_dir))
+
+    assert env["GOOGLE_API_KEY"] == "test-key"
+    assert env["GOOGLE_GENAI_USE_VERTEXAI"] == "0"

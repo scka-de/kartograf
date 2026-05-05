@@ -103,6 +103,8 @@ def load_corpus(
         source = "stackexchange"
     else:
         raise ValueError(f"unsupported corpus_source: {corpus_source}")
+    if not rows:
+        raise RuntimeError(f"corpus_source {corpus_source!r} returned no rows")
     if len(rows) < 3:
         expanded = rows * (3 // max(1, len(rows)) + 1)
         rows = expanded[:3]

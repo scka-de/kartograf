@@ -6,121 +6,337 @@
       "eval_id": "cartograph_region_01_01",
       "conversation": [
         {
-          "role": "user",
-          "content": "can you help me canceling order {{Order Number}}?"
+          "user_content": {
+            "parts": [
+              {
+                "text": "can you help me canceling order {{Order Number}}?"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Handle the user request according to policy."
+              }
+            ],
+            "role": "model"
+          }
         }
       ],
-      "expected_final_response": "Handle the user request according to policy."
+      "session_input": {
+        "app_name": "customer_service",
+        "user_id": "user",
+        "state": {}
+      }
     },
     {
       "eval_id": "cartograph_region_01_02",
       "conversation": [
         {
-          "role": "user",
-          "content": "what do I have to do to cancel purchase {{Order Number}}?"
+          "user_content": {
+            "parts": [
+              {
+                "text": "what do I have to do to cancel purchase {{Order Number}}?"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Handle the user request according to policy."
+              }
+            ],
+            "role": "model"
+          }
         }
       ],
-      "expected_final_response": "Handle the user request according to policy."
+      "session_input": {
+        "app_name": "customer_service",
+        "user_id": "user",
+        "state": {}
+      }
     },
     {
       "eval_id": "cartograph_region_01_03",
       "conversation": [
         {
-          "role": "user",
-          "content": "i want assistance canceling order {{Order Number}}"
+          "user_content": {
+            "parts": [
+              {
+                "text": "i want assistance canceling order {{Order Number}}"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Handle the user request according to policy."
+              }
+            ],
+            "role": "model"
+          }
         }
       ],
-      "expected_final_response": "Handle the user request according to policy."
+      "session_input": {
+        "app_name": "customer_service",
+        "user_id": "user",
+        "state": {}
+      }
     },
     {
       "eval_id": "cartograph_region_01_04",
       "conversation": [
         {
-          "role": "user",
-          "content": "I am trying to cancel purchase {{Order Number}}"
+          "user_content": {
+            "parts": [
+              {
+                "text": "I am trying to cancel purchase {{Order Number}}"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Handle the user request according to policy."
+              }
+            ],
+            "role": "model"
+          }
         }
       ],
-      "expected_final_response": "Handle the user request according to policy."
+      "session_input": {
+        "app_name": "customer_service",
+        "user_id": "user",
+        "state": {}
+      }
     },
     {
       "eval_id": "cartograph_region_01_05",
       "conversation": [
         {
-          "role": "user",
-          "content": "assistance with cancelling pucrhase {{Order Number}}"
+          "user_content": {
+            "parts": [
+              {
+                "text": "assistance with cancelling pucrhase {{Order Number}}"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Handle the user request according to policy."
+              }
+            ],
+            "role": "model"
+          }
         }
       ],
-      "expected_final_response": "Handle the user request according to policy."
+      "session_input": {
+        "app_name": "customer_service",
+        "user_id": "user",
+        "state": {}
+      }
     },
     {
       "eval_id": "cartograph_region_01_06",
       "conversation": [
         {
-          "role": "user",
-          "content": "can you help me canceling order {{Order Number}}?"
+          "user_content": {
+            "parts": [
+              {
+                "text": "can you help me canceling order {{Order Number}}?"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Handle the user request according to policy."
+              }
+            ],
+            "role": "model"
+          }
         }
       ],
-      "expected_final_response": "Handle the user request according to policy."
+      "session_input": {
+        "app_name": "customer_service",
+        "user_id": "user",
+        "state": {}
+      }
     },
     {
       "eval_id": "cartograph_region_00_01",
       "conversation": [
         {
-          "role": "user",
-          "content": "need help with canceling order {{Order Number}}"
+          "user_content": {
+            "parts": [
+              {
+                "text": "need help with canceling order {{Order Number}}"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Handle the user request according to policy."
+              }
+            ],
+            "role": "model"
+          }
         }
       ],
-      "expected_final_response": "Handle the user request according to policy."
+      "session_input": {
+        "app_name": "customer_service",
+        "user_id": "user",
+        "state": {}
+      }
     },
     {
       "eval_id": "cartograph_region_00_02",
       "conversation": [
         {
-          "role": "user",
-          "content": "problem with cancelling order {{Order Number}}"
+          "user_content": {
+            "parts": [
+              {
+                "text": "problem with cancelling order {{Order Number}}"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Handle the user request according to policy."
+              }
+            ],
+            "role": "model"
+          }
         }
       ],
-      "expected_final_response": "Handle the user request according to policy."
+      "session_input": {
+        "app_name": "customer_service",
+        "user_id": "user",
+        "state": {}
+      }
     },
     {
       "eval_id": "cartograph_region_00_03",
       "conversation": [
         {
-          "role": "user",
-          "content": "problem with canceling purchase {{Order Number}}"
+          "user_content": {
+            "parts": [
+              {
+                "text": "problem with canceling purchase {{Order Number}}"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Handle the user request according to policy."
+              }
+            ],
+            "role": "model"
+          }
         }
       ],
-      "expected_final_response": "Handle the user request according to policy."
+      "session_input": {
+        "app_name": "customer_service",
+        "user_id": "user",
+        "state": {}
+      }
     },
     {
       "eval_id": "cartograph_region_00_04",
       "conversation": [
         {
-          "role": "user",
-          "content": "help cnceling order {{Order Number}}"
+          "user_content": {
+            "parts": [
+              {
+                "text": "help cnceling order {{Order Number}}"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Handle the user request according to policy."
+              }
+            ],
+            "role": "model"
+          }
         }
       ],
-      "expected_final_response": "Handle the user request according to policy."
+      "session_input": {
+        "app_name": "customer_service",
+        "user_id": "user",
+        "state": {}
+      }
     },
     {
       "eval_id": "cartograph_region_00_05",
       "conversation": [
         {
-          "role": "user",
-          "content": "i need help canceling purchase {{Order Number}}"
+          "user_content": {
+            "parts": [
+              {
+                "text": "i need help canceling purchase {{Order Number}}"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Handle the user request according to policy."
+              }
+            ],
+            "role": "model"
+          }
         }
       ],
-      "expected_final_response": "Handle the user request according to policy."
+      "session_input": {
+        "app_name": "customer_service",
+        "user_id": "user",
+        "state": {}
+      }
     },
     {
       "eval_id": "cartograph_region_00_06",
       "conversation": [
         {
-          "role": "user",
-          "content": "need help with canceling order {{Order Number}}"
+          "user_content": {
+            "parts": [
+              {
+                "text": "need help with canceling order {{Order Number}}"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Handle the user request according to policy."
+              }
+            ],
+            "role": "model"
+          }
         }
       ],
-      "expected_final_response": "Handle the user request according to policy."
+      "session_input": {
+        "app_name": "customer_service",
+        "user_id": "user",
+        "state": {}
+      }
     }
   ]
 }

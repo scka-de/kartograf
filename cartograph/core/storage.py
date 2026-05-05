@@ -369,10 +369,9 @@ def save_redundant_evals(audit_id: str, redundant: list[RedundantEval]) -> None:
 def save_generated_cases(audit_id: str, cases: list[GeneratedCase]) -> None:
     init_db()
     with _connect() as conn:
-        conn.execute("DELETE FROM generated_cases WHERE audit_id=?", (audit_id,))
         conn.executemany(
             """
-            INSERT INTO generated_cases
+            INSERT OR REPLACE INTO generated_cases
             (audit_id, case_id, region_id, content, raw_json, grounded_in_json,
              validation_status, validation_details_json, accepted)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)

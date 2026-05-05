@@ -84,6 +84,44 @@ def test_write_after_eval_file_merges_old_cli_evalset(tmp_path, monkeypatch):
     assert payload[1]["data"][0]["query"] == "new query"
 
 
+def test_generated_cases_accumulate_across_rounds(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    storage.create_audit("audit_test", "target", "bitext")
+    storage.save_generated_cases(
+        "audit_test",
+        [
+            GeneratedCase(
+                id="gen_1",
+                region_id="region_00",
+                content="first query",
+                raw={"expected_final_response": "first ref"},
+                validation_status="accepted",
+                accepted=True,
+            )
+        ],
+    )
+    storage.save_generated_cases(
+        "audit_test",
+        [
+            GeneratedCase(
+                id="gen_2",
+                region_id="region_01",
+                content="second query",
+                raw={"expected_final_response": "second ref"},
+                validation_status="accepted",
+                accepted=True,
+            )
+        ],
+    )
+    eval_path = tmp_path / "simple.test.json"
+    eval_path.write_text(json.dumps([{"query": "old", "reference": "old ref"}]))
+
+    output = write_after_eval_file("audit_test", str(eval_path))
+    payload = json.loads((tmp_path / output).read_text())
+
+    assert [case["query"] for case in payload] == ["old", "first query", "second query"]
+
+
 @pytest.mark.asyncio
 async def test_run_audit_reaudits_merged_generated_evalset(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)

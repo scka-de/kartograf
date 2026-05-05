@@ -48,7 +48,7 @@ Build Cartograph v1 as a Python package with:
 | `pip install -e ".[full,dev]"` succeeds | `.venv/bin/python -m pip install -e ".[full,dev]"` succeeded after making `umap-learn==0.5.5` conditional on non-macOS-x86_64 platforms; this environment uses the deterministic reducer fallback. | Passed |
 | `cartograph version` prints version | `.venv/bin/cartograph version` printed `0.1.0`; `python -m cartograph.cli version` also printed `0.1.0`. | Passed |
 | `cartograph corpus list` prints adapters | `.venv/bin/cartograph corpus list` printed `bitext`, `github`, and `stackexchange`. | Passed |
-| `pytest` passes | `.venv/bin/python -m pytest` passed: 56 passed, 1 skipped, 57 collected. | Passed |
+| `pytest` passes | `.venv/bin/python -m pytest` passed: 60 passed, 1 skipped, 61 collected. | Passed |
 | `mypy cartograph/core` passes | `python -m mypy cartograph/core` passed with `strict = true` and missing-import overrides for optional `umap`, `hdbscan`, `joblib`. | Passed |
 | `ruff check cartograph` passes | `.venv/bin/python -m ruff check cartograph tests scripts` passed. | Passed |
 | `bash scripts/run_demo.sh` exits 0 | Passed for latest full-script audit `audit_6a42a655f8cc`; generated required JSON/PNG/reducer artifacts and stdout strings, including `adk_eval_blocker`. Customer-service coverage moved `0.67 -> 1.00`. | Passed |
@@ -60,14 +60,15 @@ Build Cartograph v1 as a Python package with:
 | MCP modules start standalone | A subprocess smoke test started all six `python -m cartograph.mcp_servers.*` modules for 0.5s and terminated them cleanly after confirming they stayed alive. | Passed |
 | MCP stdio client/server round trip | `tests/test_mcp_stdio_roundtrip.py` uses the real MCP SDK `stdio_client` and `ClientSession` to verify all six servers expose expected tool names, and to call `write_jsonl` / `read_jsonl` on `cartograph.mcp_servers.eval_io_git`. | Passed |
 | Required precomputed files | `data/precomputed/fleet_benchmark.json`, `data/precomputed/customer_service_report.json`, and `data/precomputed/customer-service.evalset.json` exist and are non-empty. | Passed |
-| Precomputed artifacts are publishable | `data/precomputed/customer_service_report.json` is ~16 KB after ADK output summarization, `customer-service_cartograph_generated.evalset.json` contains 6 unique generated cases, and `rg` found no local paths or stack traces in `data/precomputed`. | Passed |
+| Precomputed artifacts are publishable | `data/precomputed/customer_service_report.json` is ~16 KB after ADK output summarization, `customer-service_cartograph_generated.evalset.json` contains current-schema ADK cases and validates with `google.adk.evaluation.eval_set.EvalSet`; `rg` found no local paths or stack traces in `data/precomputed`. | Passed |
 | `.env.example` documents runtime variables | `.env.example` lists `GOOGLE_API_KEY`, `GITHUB_TOKEN`, `GOOGLE_GENAI_USE_VERTEXAI`, `GOOGLE_CLOUD_PROJECT`, `GOOGLE_CLOUD_LOCATION`, `MPLCONFIGDIR`, and `XDG_CACHE_HOME`. | Passed |
 | Real ADK factory imports | `.venv/bin/python` with `google-adk==1.32.0` built root `cartograph` with sub-agents `mapper`, `auditor`, `generator`. | Passed |
 | Real MCP SDK import | `.venv/bin/python` imported `mcp.server.fastmcp.FastMCP` and `run_stdio_server`. | Passed |
 | Real Bitext corpus path | `.venv/bin/python` downloaded/cached HuggingFace Bitext and reported 26,872 examples with `mode: real`. | Passed |
 | Real ADK sample checkout | `scripts/clone_adk_samples.py` cloned `google/adk-samples` into `data/adk_samples`; customer-service eval path is converted from the sample's `simple.test.json`. | Passed |
-| Real ADK eval reaches model call | Escalated `CARTOGRAPH_RUN_E2E=1 GOOGLE_GENAI_USE_VERTEXAI=1 .venv/bin/python -m pytest -m e2e` invoked `.venv/bin/adk eval` against the cloned customer-service module and converted evalset using Vertex AI project `kartograf-495419`; latest audit `audit_90ed13456cac` completed with coverage `1.00`, before pass/fail `0/2`, and after pass/fail `0/14`. | Passed |
-| Opt-in live e2e smoke test | `tests/test_e2e_smoke.py` now runs `run_customer_service_deep_dive(limit=30)` when `CARTOGRAPH_RUN_E2E=1` and Google runtime credentials are configured, then asserts coverage threshold and non-null before/after pass rates. Escalated Vertex run passed: 1 passed, 55 deselected in 63.88s. | Passed |
+| Real ADK eval reaches model call | Escalated `CARTOGRAPH_RUN_E2E=1 GOOGLE_GENAI_USE_VERTEXAI=1 .venv/bin/python -m pytest -m e2e` invoked `.venv/bin/adk eval` against the cloned customer-service module and converted evalset using Vertex AI project `kartograf-495419`; latest audit `audit_c390577a669a` completed with coverage `1.00`, before pass/fail `0/2`, and after pass/fail `0/14`. | Passed |
+| Opt-in live e2e smoke test | `tests/test_e2e_smoke.py` now runs `run_customer_service_deep_dive(limit=30)` when `CARTOGRAPH_RUN_E2E=1` and Google runtime credentials are configured, then asserts coverage threshold and non-null before/after pass rates. Escalated Vertex run passed: 1 passed, 60 deselected in 62.91s. | Passed |
+| Repo-wide code review hardening | Review fixes added `.env` loading to the ADK subprocess env, current-schema ADK generated evalset output, cumulative generated-case persistence across rounds, and an explicit empty-corpus failure. Targeted regression tests and full gates pass. | Passed |
 
 ## Completion Audit
 
@@ -106,12 +107,12 @@ Concrete deliverables requested by the prompt:
 | Eval I/O Git round trip | `cartograph/mcp_servers/eval_io_git.py`, tests | JSONL round trip and real MCP stdio round trip pass. | Done |
 | coverage_state provider | `cartograph/mcp_servers/coverage_state.py`, `tests/test_mcp_coverage_state.py` | Lists audits, gaps, generated cases; full report provider implemented. | Done |
 | Fleet benchmark for 5 agents | `data/precomputed/fleet_benchmark.json`, `bash scripts/run_demo.sh` | Latest acceptance run shows 5 entries; customer-service/software-bug/financial real, travel/data-science mocked fallback. | Done under fallback acceptance |
-| Live customer-service deep dive | `cartograph/demo/deep_dive.py`, `data/precomputed/customer_service_report.json`, `scripts/run_demo.sh` | Prints coverage before/after, generated cases, decision log, pass-rate lines, blocker line, and rejection event; precomputed report summarizes raw ADK output for publication. | Done except pass-rate values |
+| Live customer-service deep dive | `cartograph/demo/deep_dive.py`, `data/precomputed/customer_service_report.json`, `scripts/run_demo.sh` | Prints coverage before/after, generated cases, decision log, pass-rate lines, blocker line, and rejection event; latest precomputed report has non-null before/after pass-rate values and summarizes raw ADK output for publication. | Done |
 | Visualization PNGs | `cartograph/demo/visualize.py`, `data/audits/<audit_id>/viz/*.png` | `regions.png`, `coverage.png`, `before_after.png` generated by acceptance script. | Done |
 | Final acceptance script | `scripts/run_demo.sh` | Latest verified run exited 0 for `audit_6a42a655f8cc`; generated required visualizations and stdout contract. | Done |
 | README smoke-demo docs | `README.md` | Install, env vars, quickstart, demo command, e2e command, proposal/spec links, runtime notes documented. | Done |
-| Tests and quality gates | `.venv/bin/python -m pytest`, `ruff`, `mypy cartograph/core` | Latest full suite: 56 passed, 1 skipped, 57 collected; ruff and mypy pass. | Done |
-| Live e2e with real pass rates | `tests/test_e2e_smoke.py`, `CARTOGRAPH_RUN_E2E=1 ... pytest -m e2e` | Escalated Vertex run passed with audit `audit_90ed13456cac`, coverage `1.00`, non-null before pass rate `0.0`, and non-null after pass rate `0.0`. | Done |
+| Tests and quality gates | `.venv/bin/python -m pytest`, `ruff`, `mypy cartograph/core` | Latest full suite: 60 passed, 1 skipped, 61 collected; ruff and mypy pass. | Done |
+| Live e2e with real pass rates | `tests/test_e2e_smoke.py`, `CARTOGRAPH_RUN_E2E=1 ... pytest -m e2e` | Escalated Vertex run passed with audit `audit_c390577a669a`, coverage `1.00`, non-null before pass rate `0.0`, and non-null after pass rate `0.0`. | Done |
 | Submission recording | External artifact | Not present in workspace; requires human recording. | Blocked externally |
 | GitHub repository and devpost link | External publishing artifacts | Private interim repo exists at `https://github.com/scka-de/kartograf` and `main` tracks `origin/main`. Final submission still requires making the repo public and preparing the devpost URL. | Partially done |
 
@@ -121,6 +122,7 @@ Current high-confidence evidence:
 - Local git repository exists; initial implementation snapshot committed as `78739a3 Initial Cartograph implementation`; private remote `origin` is `https://github.com/scka-de/kartograf.git`.
 - Final script `bash scripts/run_demo.sh` exits 0 and checks the required files/stdout contract with `customer-service` in `corpus_mode == "real"`.
 - The customer-service deep dive now invokes Generator once, re-audits the merged original-plus-generated evalset, and terminates at coverage `1.00`.
+- Repo-wide review fixes are covered by regressions: ADK `.env` loading, current ADK evalset serialization for generated cases, cumulative generated-case storage, and explicit failure on empty adapter corpora.
 - The `cartograph audit` CLI path now streams decision rows as they are written through a scoped observer hook.
 - Local quality gates pass: ruff, mypy core strict, pytest.
 - Root files, MCP docstrings, README runtime/e2e notes, `.env.example`, and required precomputed demo artifacts were checked directly.

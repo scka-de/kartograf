@@ -1,5 +1,7 @@
 import json
 
+import pytest
+
 from cartograph.agents.generator import _local_candidates, format_for_target
 from cartograph.core import storage
 from cartograph.core.models import GeneratedCase
@@ -57,3 +59,53 @@ def test_format_for_target_replaces_generated_evalset(tmp_path, monkeypatch):
     )
     payload = json.loads((tmp_path / output).read_text())
     assert [case["eval_id"] for case in payload["eval_cases"]] == ["gen_2"]
+
+
+def test_format_for_target_writes_current_adk_evalset_schema(tmp_path, monkeypatch):
+    pytest.importorskip("google.adk")
+    from google.adk.evaluation.eval_set import EvalSet
+
+    monkeypatch.chdir(tmp_path)
+    storage.create_audit("audit_test", "target", "bitext")
+    eval_path = tmp_path / "suite.evalset.json"
+    eval_path.write_text(
+        json.dumps(
+            {
+                "eval_cases": [
+                    {
+                        "eval_id": "seed",
+                        "session_input": {
+                            "app_name": "target_app",
+                            "user_id": "target_user",
+                            "state": {"k": "v"},
+                        },
+                    }
+                ]
+            }
+        )
+    )
+    output = format_for_target(
+        "audit_test",
+        [
+            GeneratedCase(
+                id="gen_1",
+                region_id="region_00",
+                content="new query",
+                raw={"expected_final_response": "reference"},
+                validation_status="accepted",
+                accepted=True,
+            )
+        ],
+        str(eval_path),
+    )
+
+    payload = json.loads((tmp_path / output).read_text())
+    EvalSet.model_validate(payload)
+    assert payload["eval_cases"][0]["conversation"][0]["user_content"]["parts"][0]["text"] == (
+        "new query"
+    )
+    assert payload["eval_cases"][0]["session_input"] == {
+        "app_name": "target_app",
+        "user_id": "target_user",
+        "state": {"k": "v"},
+    }
