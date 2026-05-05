@@ -1,9 +1,10 @@
 from __future__ import annotations
 
 import asyncio
+import importlib
 import os
 from pathlib import Path
-from typing import cast
+from typing import Any, cast
 
 import numpy as np
 from dotenv import load_dotenv
@@ -40,19 +41,19 @@ async def embed_texts(texts: list[str], cache_key: str | None = None) -> NDArray
 
 
 async def _embed_with_gemini(texts: list[str]) -> NDArray[np.float64]:
-    from google import genai  # type: ignore[import-not-found]
-
+    genai: Any = importlib.import_module("google.genai")
     client = genai.Client(api_key=os.environ["GOOGLE_API_KEY"])
     vectors: list[list[float]] = []
     for start in range(0, len(texts), 100):
         batch = texts[start : start + 100]
         for attempt in range(2):
             try:
-                response = client.models.embed_content(
+                response: Any = client.models.embed_content(
                     model="text-embedding-004",
                     contents=batch,
                 )
-                vectors.extend([embedding.values for embedding in response.embeddings])
+                embeddings = response.embeddings or []
+                vectors.extend([list(embedding.values) for embedding in embeddings])
                 break
             except Exception:
                 if attempt == 1:
