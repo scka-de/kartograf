@@ -1,0 +1,52 @@
+{
+  "generated_at": "2026-05-04T21:12:16.832281+00:00",
+  "agents": [
+    {
+      "target_agent": "python/agents/customer-service",
+      "corpus_mode": "real",
+      "corpus_size": 30,
+      "noise_fraction": 0.0,
+      "coverage_score": 1.0,
+      "region_count": 3,
+      "audit_id": "audit_6dcb88e9b923"
+    },
+    {
+      "target_agent": "python/agents/software-bug-assistant",
+      "corpus_mode": "real",
+      "corpus_size": 20,
+      "noise_fraction": 0.0,
+      "coverage_score": 1.0,
+      "region_count": 3,
+      "audit_id": "audit_7f7d9035c42f"
+    },
+    {
+      "target_agent": "python/agents/financial-advisor",
+      "corpus_mode": "real",
+      "corpus_size": 30,
+      "noise_fraction": 0.0,
+      "coverage_score": 1.0,
+      "region_count": 3,
+      "audit_id": "audit_184c40715eb8"
+    },
+    {
+      "target_agent": "python/agents/travel-concierge",
+      "corpus_mode": "mocked",
+      "corpus_size": 30,
+      "noise_fraction": 0.0,
+      "coverage_score": 1.0,
+      "region_count": 3,
+      "audit_id": "audit_c6aade56c158",
+      "corpus_source_failure_reason": "using bundled deterministic fixture in local demo mode"
+    },
+    {
+      "target_agent": "python/agents/data-science",
+      "corpus_mode": "mocked",
+      "corpus_size": 30,
+      "noise_fraction": 0.0,
+      "coverage_score": 1.0,
+      "region_count": 3,
+      "audit_id": "audit_f4e8c0ee318a",
+      "corpus_source_failure_reason": "using bundled deterministic fixture in local demo mode"
+    }
+  ]
+}

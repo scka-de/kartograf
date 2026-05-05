@@ -1,0 +1,62 @@
+{
+  "eval_set_id": "customer_service_cartograph",
+  "name": "customer_service_cartograph",
+  "eval_cases": [
+    {
+      "eval_id": "customer_service_01",
+      "conversation": [
+        {
+          "user_content": {
+            "parts": [
+              {
+                "text": "hi,"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Hi there! Welcome back to Cymbal Home & Garden! I see you're a returning customer. How can I help you make your home and garden even better today"
+              }
+            ],
+            "role": "model"
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "customer_service",
+        "user_id": "user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "customer_service_02",
+      "conversation": [
+        {
+          "user_content": {
+            "parts": [
+              {
+                "text": "tell me what is in my cart?"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "you have one bag of Standard Potting Soil and one container of General Purpose Fertilizer in your cart"
+              }
+            ],
+            "role": "model"
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "customer_service",
+        "user_id": "user",
+        "state": {}
+      }
+    }
+  ]
+}

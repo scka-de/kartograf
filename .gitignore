@@ -1,0 +1,15 @@
+.env
+.venv/
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+data/audits/
+data/corpora/
+data/embeddings/
+data/adk_samples/
+data/matplotlib/
+data/cache/
+!data/precomputed/
+!data/precomputed/.gitkeep

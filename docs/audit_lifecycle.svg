@@ -1,0 +1,64 @@
+<svg width="100%" viewBox="0 0 680 540" role="img" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+<title>Cartograph audit lifecycle with orchestrator decisions</title>
+<desc>Five stages with orchestrator decision points and a re-audit loop. Generator runs only if coverage is below threshold; after writing new tests the orchestrator may re-audit.</desc>
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#888780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+<style>
+.t { font-size:14px; fill:#3d3d3a; }
+.ts { font-size:12px; fill:#73726c; }
+.th { font-size:14px; font-weight:500; fill:#3d3d3a; }
+.arr { stroke:#888780; stroke-width:1.5; fill:none; }
+.dashed { stroke:#888780; stroke-width:0.5; stroke-dasharray:3,3; fill:none; }
+.leader { stroke:#888780; stroke-width:0.5; stroke-dasharray:2,2; fill:none; }
+</style>
+</defs>
+
+<rect x="200" y="20" width="280" height="50" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text class="th" x="340" y="40" text-anchor="middle" dominant-baseline="central" fill="#3C3489">1. Ingest</text>
+<text class="ts" x="340" y="58" text-anchor="middle" dominant-baseline="central" fill="#534AB7">Load corpus and current eval suite</text>
+<line x1="340" y1="70" x2="340" y2="100" class="arr" marker-end="url(#arrow)"/>
+
+<rect x="200" y="102" width="280" height="50" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="th" x="340" y="122" text-anchor="middle" dominant-baseline="central" fill="#085041">2. Map</text>
+<text class="ts" x="340" y="140" text-anchor="middle" dominant-baseline="central" fill="#0F6E56">Mapper sub-agent embeds and clusters</text>
+<line x1="340" y1="152" x2="340" y2="182" class="arr" marker-end="url(#arrow)"/>
+
+<rect x="200" y="184" width="280" height="50" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="th" x="340" y="204" text-anchor="middle" dominant-baseline="central" fill="#085041">3. Audit</text>
+<text class="ts" x="340" y="222" text-anchor="middle" dominant-baseline="central" fill="#0F6E56">Auditor projects evals, scores gaps</text>
+<line x1="340" y1="234" x2="340" y2="264" class="arr" marker-end="url(#arrow)"/>
+
+<rect x="200" y="266" width="280" height="60" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="1"/>
+<text class="th" x="340" y="290" text-anchor="middle" dominant-baseline="central" fill="#712B13">Orchestrator decides</text>
+<text class="ts" x="340" y="310" text-anchor="middle" dominant-baseline="central" fill="#993C1D">Coverage above threshold? Terminate. Else: Generate.</text>
+
+<line x1="200" y1="296" x2="120" y2="296" class="dashed"/>
+<line x1="120" y1="296" x2="120" y2="490" class="dashed"/>
+<path d="M120 490 L195 490" class="dashed" marker-end="url(#arrow)"/>
+<text class="ts" x="100" y="380" text-anchor="end" fill="#73726c">terminate</text>
+
+<line x1="340" y1="326" x2="340" y2="356" class="arr" marker-end="url(#arrow)"/>
+<text class="ts" x="350" y="345" fill="#73726c">generate</text>
+
+<rect x="200" y="358" width="280" height="50" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="th" x="340" y="378" text-anchor="middle" dominant-baseline="central" fill="#085041">4. Generate</text>
+<text class="ts" x="340" y="396" text-anchor="middle" dominant-baseline="central" fill="#0F6E56">Generator synthesizes tests for top-K gaps</text>
+<line x1="340" y1="408" x2="340" y2="438" class="arr" marker-end="url(#arrow)"/>
+
+<rect x="200" y="440" width="280" height="60" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5"/>
+<text class="th" x="340" y="464" text-anchor="middle" dominant-baseline="central" fill="#633806">5. Validate &amp; write</text>
+<text class="ts" x="340" y="484" text-anchor="middle" dominant-baseline="central" fill="#854F0B">Reject duplicates, write evals via MCP</text>
+
+<line x1="480" y1="470" x2="560" y2="470" class="dashed"/>
+<line x1="560" y1="470" x2="560" y2="296" class="dashed"/>
+<path d="M560 296 L485 296" class="dashed" marker-end="url(#arrow)"/>
+<text class="ts" x="580" y="385" fill="#73726c">re-audit</text>
+
+<text class="ts" x="40" y="60" fill="#73726c">Inputs</text>
+<line x1="80" y1="55" x2="195" y2="48" class="leader"/>
+
+<text class="ts" x="510" y="125" fill="#73726c">Gemini embeddings</text>
+<text class="ts" x="510" y="207" fill="#73726c">Gemini 2.5 Pro</text>
+<text class="ts" x="510" y="381" fill="#73726c">Grounded synthesis</text>
+<text class="ts" x="510" y="465" fill="#73726c">MCP write</text>
+</svg>
