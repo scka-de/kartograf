@@ -71,6 +71,7 @@ Build Cartograph v1 as a Python package with:
 | Repo-wide code review hardening | Review fixes added `.env` loading to the ADK subprocess env, current-schema ADK generated evalset output, cumulative generated-case persistence across rounds, and an explicit empty-corpus failure. Targeted regression tests and full gates pass. | Passed |
 | Final pause audit | Re-ran `.venv/bin/python -m pytest`, `.venv/bin/ruff check .`, `.venv/bin/mypy cartograph/core`, `.venv/bin/cartograph version`, `.venv/bin/cartograph corpus list`, a precomputed artifact/schema inspection, and `bash scripts/run_demo.sh`. The local acceptance script passed for `audit_8755b0e3b3c0`; because sandboxed ADK eval degraded to `adk_eval_blocker`, its precomputed artifact mutations were restored to the previously committed Vertex-verified audit `audit_c390577a669a`. | Passed with noted runtime constraint |
 | Submission checklist | `docs/submission_checklist.md` now gives the live preflight commands, four-minute recording arc from proposal section 9, fallback/Vertex artifact warning, public GitHub preflight scan, and Devpost payload list. README links to it from the Demo section. | Prepared; external execution still required |
+| Devpost draft | `docs/devpost_draft.md` contains project name, tagline, links placeholders, inspiration, what it does, build details, demo arc, challenges, accomplishments, learnings, next steps, built-with list, and verification summary. | Prepared; URL/video placeholders still required |
 
 ## Completion Audit
 
@@ -116,7 +117,7 @@ Concrete deliverables requested by the prompt:
 | Tests and quality gates | `.venv/bin/python -m pytest`, `ruff`, `mypy cartograph/core` | Latest full suite: 60 passed, 1 skipped, 61 collected; ruff and mypy pass. | Done |
 | Live e2e with real pass rates | `tests/test_e2e_smoke.py`, `CARTOGRAPH_RUN_E2E=1 ... pytest -m e2e` | Escalated Vertex run passed with audit `audit_c390577a669a`, coverage `1.00`, non-null before pass rate `0.0`, and non-null after pass rate `0.0`. | Done |
 | Submission recording | External artifact | Not present in workspace; requires human recording. | Blocked externally |
-| GitHub repository and devpost link | External publishing artifacts | Private interim repo exists at `https://github.com/scka-de/kartograf` and `main` tracks `origin/main`. `docs/submission_checklist.md` documents the final public-repo scan and Devpost payload. Final submission still requires explicit approval to make the repo public and preparing the Devpost URL. | Partially done |
+| GitHub repository and devpost link | External publishing artifacts | Private interim repo exists at `https://github.com/scka-de/kartograf` and `main` tracks `origin/main`. `docs/submission_checklist.md` documents the final public-repo scan; `docs/devpost_draft.md` provides the Devpost copy. Final submission still requires explicit approval to make the repo public, a recording URL, and the final Devpost URL. | Partially done |
 
 Current high-confidence evidence:
 

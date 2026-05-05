@@ -92,6 +92,7 @@ report.
 3. Prepare Devpost with:
    - GitHub repository URL.
    - Four-minute recording URL.
+   - Draft copy from `docs/devpost_draft.md`.
    - Short description from `README.md`.
    - Technical explanation from `docs/cartograph_proposal.md`.
    - Verification summary from `IMPLEMENTATION_PLAN.md`.
