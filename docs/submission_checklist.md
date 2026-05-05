@@ -20,12 +20,15 @@ and recording.
 2. Run the default quality gates:
 
    ```bash
-   .venv/bin/python -m pytest
-   .venv/bin/ruff check .
-   .venv/bin/mypy cartograph/core
+   scripts/pre_submission_check.sh
    ```
 
-3. Run the live pre-submission smoke test:
+   This validates tests, lint, type checks, committed precomputed artifacts,
+   generated ADK evalset schema, non-null pass rates, and the publishability
+   scan without rewriting demo artifacts.
+
+3. Run the live pre-submission smoke test if the committed report needs to be
+   refreshed:
 
    ```bash
    GOOGLE_GENAI_USE_VERTEXAI=1 CARTOGRAPH_RUN_E2E=1 .venv/bin/python -m pytest -m e2e

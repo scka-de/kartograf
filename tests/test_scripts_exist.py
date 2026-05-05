@@ -8,5 +8,6 @@ def test_spec_named_scripts_exist():
         "scripts/fetch_github_issues.py",
         "scripts/clone_adk_samples.py",
         "scripts/run_demo.sh",
+        "scripts/pre_submission_check.sh",
     ]:
         assert Path(path).exists()

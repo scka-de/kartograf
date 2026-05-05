@@ -66,6 +66,7 @@ mypy cartograph/core
 Live pre-submission smoke test:
 
 ```bash
+scripts/pre_submission_check.sh
 CARTOGRAPH_RUN_E2E=1 GOOGLE_API_KEY=... GOOGLE_GENAI_USE_VERTEXAI=0 pytest -m e2e
 ```
 
