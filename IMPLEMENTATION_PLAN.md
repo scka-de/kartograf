@@ -113,7 +113,7 @@ Concrete deliverables requested by the prompt:
 | Tests and quality gates | `.venv/bin/python -m pytest`, `ruff`, `mypy cartograph/core` | Latest full suite: 51 passed, 1 skipped, 52 collected; ruff and mypy pass. | Done |
 | Live e2e with real pass rates | `tests/test_e2e_smoke.py`, `CARTOGRAPH_RUN_E2E=1 ... pytest -m e2e` | Test is actionable but skipped until Google credentials/project config can produce non-null ADK pass rates. | Blocked externally |
 | Submission recording | External artifact | Not present in workspace; requires human recording. | Blocked externally |
-| Public GitHub repository and devpost link | External publishing artifacts | Workspace is not a git repo and no public repo/devpost URL is available. | Blocked externally |
+| Public GitHub repository and devpost link | External publishing artifacts | Local git history exists, but no public GitHub remote/repo or devpost URL is available. | Blocked externally |
 
 Current high-confidence evidence:
 
