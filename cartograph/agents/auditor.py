@@ -35,6 +35,7 @@ async def run_auditor(audit_id: str, eval_path: str) -> dict:
     from cartograph.core.math import l2_normalize
 
     reduced_30d = l2_normalize(reduced_30d)
+    _reuse_exact_corpus_vectors(audit_id, cases, full, reduced_30d)
     for index, case in enumerate(cases):
         case.embedding = full[index].tolist()
         case.embedding_30d = reduced_30d[index].tolist()
@@ -77,6 +78,32 @@ async def run_auditor(audit_id: str, eval_path: str) -> dict:
         "scored eval coverage against mapped regions",
     )
     return output
+
+
+def _reuse_exact_corpus_vectors(
+    audit_id: str,
+    cases: list[EvalCase],
+    full: np.ndarray,
+    reduced_30d: np.ndarray,
+) -> None:
+    corpus_items = storage.load_corpus_items(audit_id)
+    corpus_index = {item.text: index for index, item in enumerate(corpus_items)}
+    if not corpus_index:
+        return
+    full_path = storage.audit_dir(audit_id) / "embeddings_corpus_full.npy"
+    reduced_path = storage.audit_dir(audit_id) / "embeddings_corpus_30d.npy"
+    if not full_path.exists() or not reduced_path.exists():
+        return
+    corpus_full = np.load(full_path)
+    corpus_reduced = np.load(reduced_path)
+    for index, case in enumerate(cases):
+        match = corpus_index.get(case.content)
+        if match is None:
+            continue
+        if match < len(corpus_full) and index < len(full):
+            full[index] = corpus_full[match]
+        if match < len(corpus_reduced) and index < len(reduced_30d):
+            reduced_30d[index] = corpus_reduced[match]
 
 
 def load_eval_suite(audit_id: str, eval_path: str) -> list[EvalCase]:

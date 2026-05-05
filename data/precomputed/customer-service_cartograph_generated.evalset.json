@@ -3,61 +3,121 @@
   "name": "customer-service_cartograph_generated.evalset",
   "eval_cases": [
     {
-      "eval_id": "cartograph_region_02_01",
+      "eval_id": "cartograph_region_01_01",
       "conversation": [
         {
           "role": "user",
-          "content": "need assistance cancelling order {{Order Number}}"
+          "content": "can you help me canceling order {{Order Number}}?"
         }
       ],
       "expected_final_response": "Handle the user request according to policy."
     },
     {
-      "eval_id": "cartograph_region_02_02",
+      "eval_id": "cartograph_region_01_02",
       "conversation": [
         {
           "role": "user",
-          "content": "need help with canceling purchase {{Order Number}}"
+          "content": "what do I have to do to cancel purchase {{Order Number}}?"
         }
       ],
       "expected_final_response": "Handle the user request according to policy."
     },
     {
-      "eval_id": "cartograph_region_02_03",
+      "eval_id": "cartograph_region_01_03",
       "conversation": [
         {
           "role": "user",
-          "content": "I have a problem with cancelling purchase {{Order Number}}"
+          "content": "i want assistance canceling order {{Order Number}}"
         }
       ],
       "expected_final_response": "Handle the user request according to policy."
     },
     {
-      "eval_id": "cartograph_region_02_04",
+      "eval_id": "cartograph_region_01_04",
       "conversation": [
         {
           "role": "user",
-          "content": "help  me canceling purchase {{Order Number}}"
+          "content": "I am trying to cancel purchase {{Order Number}}"
         }
       ],
       "expected_final_response": "Handle the user request according to policy."
     },
     {
-      "eval_id": "cartograph_region_02_05",
+      "eval_id": "cartograph_region_01_05",
       "conversation": [
         {
           "role": "user",
-          "content": "can you help me cancel order {{Order Number}}?"
+          "content": "assistance with cancelling pucrhase {{Order Number}}"
         }
       ],
       "expected_final_response": "Handle the user request according to policy."
     },
     {
-      "eval_id": "cartograph_region_02_06",
+      "eval_id": "cartograph_region_01_06",
       "conversation": [
         {
           "role": "user",
-          "content": "need assistance cancelling order {{Order Number}}"
+          "content": "can you help me canceling order {{Order Number}}?"
+        }
+      ],
+      "expected_final_response": "Handle the user request according to policy."
+    },
+    {
+      "eval_id": "cartograph_region_00_01",
+      "conversation": [
+        {
+          "role": "user",
+          "content": "need help with canceling order {{Order Number}}"
+        }
+      ],
+      "expected_final_response": "Handle the user request according to policy."
+    },
+    {
+      "eval_id": "cartograph_region_00_02",
+      "conversation": [
+        {
+          "role": "user",
+          "content": "problem with cancelling order {{Order Number}}"
+        }
+      ],
+      "expected_final_response": "Handle the user request according to policy."
+    },
+    {
+      "eval_id": "cartograph_region_00_03",
+      "conversation": [
+        {
+          "role": "user",
+          "content": "problem with canceling purchase {{Order Number}}"
+        }
+      ],
+      "expected_final_response": "Handle the user request according to policy."
+    },
+    {
+      "eval_id": "cartograph_region_00_04",
+      "conversation": [
+        {
+          "role": "user",
+          "content": "help cnceling order {{Order Number}}"
+        }
+      ],
+      "expected_final_response": "Handle the user request according to policy."
+    },
+    {
+      "eval_id": "cartograph_region_00_05",
+      "conversation": [
+        {
+          "role": "user",
+          "content": "i need help canceling purchase {{Order Number}}"
+        }
+      ],
+      "expected_final_response": "Handle the user request according to policy."
+    },
+    {
+      "eval_id": "cartograph_region_00_06",
+      "conversation": [
+        {
+          "role": "user",
+          "content": "need help with canceling order {{Order Number}}"
         }
       ],
       "expected_final_response": "Handle the user request according to policy."

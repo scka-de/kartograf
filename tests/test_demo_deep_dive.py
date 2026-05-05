@@ -28,6 +28,24 @@ def test_precomputed_payload_summarizes_eval_outputs():
     assert len(payload["eval_run_after"]["stdout"]) <= 240
 
 
+def test_precomputed_payload_suppresses_local_warning_paths():
+    class WarningReport:
+        def model_dump(self, mode: str):
+            assert mode == "json"
+            return {
+                "eval_run_before": {
+                    "command": ["/tmp/project/.venv/bin/adk", "eval"],
+                    "stdout": "",
+                    "stderr": "/tmp/project/.venv/lib/site-packages/pkg.py: UserWarning",
+                },
+                "eval_run_after": None,
+            }
+
+    payload = _precomputed_payload(WarningReport())
+
+    assert payload["eval_run_before"]["stderr"] == "ADK runtime warnings suppressed"
+
+
 def test_adk_eval_blocker_distinguishes_gemini_service_disabled():
     run = SimpleNamespace(
         pass_rate=None,

@@ -1,10 +1,10 @@
 {
-  "audit_id": "audit_504accf3d80e",
+  "audit_id": "audit_90ed13456cac",
   "target_agent": "data/adk_samples/python/agents/customer-service/customer_service",
   "corpus_source": "bitext",
   "corpus_size": 30,
   "noise_fraction": 0.0,
-  "eval_count": 8,
+  "eval_count": 14,
   "coverage_score": 1.0,
   "regions": [
     {
@@ -65,9 +65,10 @@
         "bitext_9"
       ],
       "eval_case_ids": [
-        "customer_service_02"
+        "gen_region_01_04",
+        "gen_region_01_05"
       ],
-      "eval_density": 0.1
+      "eval_density": 0.2
     },
     {
       "id": "region_01",
@@ -127,9 +128,11 @@
         "bitext_22"
       ],
       "eval_case_ids": [
-        "customer_service_01"
+        "gen_region_00_01",
+        "gen_region_00_03",
+        "gen_region_00_06"
       ],
-      "eval_density": 0.1
+      "eval_density": 0.3
     },
     {
       "id": "region_02",
@@ -189,31 +192,39 @@
         "bitext_5"
       ],
       "eval_case_ids": [
-        "gen_region_02_01",
-        "gen_region_02_02",
-        "gen_region_02_03",
-        "gen_region_02_04",
-        "gen_region_02_05",
-        "gen_region_02_06"
+        "customer_service_01",
+        "customer_service_02",
+        "gen_region_00_02",
+        "gen_region_00_04",
+        "gen_region_00_05",
+        "gen_region_01_01",
+        "gen_region_01_02",
+        "gen_region_01_03",
+        "gen_region_01_06"
       ],
-      "eval_density": 0.6
+      "eval_density": 0.9
     }
   ],
   "gaps": [],
   "redundant_evals": [
     {
-      "case_id": "gen_region_02_06",
-      "duplicate_of_case_id": "gen_region_02_01",
+      "case_id": "gen_region_00_06",
+      "duplicate_of_case_id": "gen_region_00_01",
+      "similarity": 1.0000000000000002
+    },
+    {
+      "case_id": "gen_region_01_06",
+      "duplicate_of_case_id": "gen_region_01_01",
       "similarity": 1.0
     }
   ],
   "generated_cases": [
     {
-      "id": "gen_region_02_00",
-      "region_id": "region_02",
+      "id": "gen_region_00_00",
+      "region_id": "region_00",
       "content": "hi,",
       "raw": {
-        "eval_id": "cartograph_region_02_00",
+        "eval_id": "cartograph_region_00_00",
         "conversation": [
           {
             "role": "user",
@@ -223,11 +234,11 @@
         "expected_final_response": "Handle the user request according to policy."
       },
       "grounded_in_corpus_ids": [
-        "bitext_26",
-        "bitext_23",
-        "bitext_11",
-        "bitext_14",
-        "bitext_5"
+        "bitext_18",
+        "bitext_27",
+        "bitext_12",
+        "bitext_24",
+        "bitext_9"
       ],
       "embedding": null,
       "embedding_30d": null,
@@ -239,55 +250,25 @@
       "accepted": false
     },
     {
-      "id": "gen_region_02_01",
-      "region_id": "region_02",
-      "content": "need assistance cancelling order {{Order Number}}",
+      "id": "gen_region_00_01",
+      "region_id": "region_00",
+      "content": "need help with canceling order {{Order Number}}",
       "raw": {
-        "eval_id": "cartograph_region_02_01",
+        "eval_id": "cartograph_region_00_01",
         "conversation": [
           {
             "role": "user",
-            "content": "need assistance cancelling order {{Order Number}}"
+            "content": "need help with canceling order {{Order Number}}"
           }
         ],
         "expected_final_response": "Handle the user request according to policy."
       },
       "grounded_in_corpus_ids": [
-        "bitext_26",
-        "bitext_23",
-        "bitext_11",
-        "bitext_14",
-        "bitext_5"
-      ],
-      "embedding": null,
-      "embedding_30d": null,
-      "validation_status": "accepted",
-      "validation_details": {
-        "max_similarity": 0.024428120935107916,
-        "min_exemplar_distance": 0.0
-      },
-      "accepted": true
-    },
-    {
-      "id": "gen_region_02_02",
-      "region_id": "region_02",
-      "content": "need help with canceling purchase {{Order Number}}",
-      "raw": {
-        "eval_id": "cartograph_region_02_02",
-        "conversation": [
-          {
-            "role": "user",
-            "content": "need help with canceling purchase {{Order Number}}"
-          }
-        ],
-        "expected_final_response": "Handle the user request according to policy."
-      },
-      "grounded_in_corpus_ids": [
-        "bitext_26",
-        "bitext_23",
-        "bitext_11",
-        "bitext_14",
-        "bitext_5"
+        "bitext_18",
+        "bitext_27",
+        "bitext_12",
+        "bitext_24",
+        "bitext_9"
       ],
       "embedding": null,
       "embedding_30d": null,
@@ -299,85 +280,115 @@
       "accepted": true
     },
     {
-      "id": "gen_region_02_03",
-      "region_id": "region_02",
-      "content": "I have a problem with cancelling purchase {{Order Number}}",
+      "id": "gen_region_00_02",
+      "region_id": "region_00",
+      "content": "problem with cancelling order {{Order Number}}",
       "raw": {
-        "eval_id": "cartograph_region_02_03",
+        "eval_id": "cartograph_region_00_02",
         "conversation": [
           {
             "role": "user",
-            "content": "I have a problem with cancelling purchase {{Order Number}}"
+            "content": "problem with cancelling order {{Order Number}}"
           }
         ],
         "expected_final_response": "Handle the user request according to policy."
       },
       "grounded_in_corpus_ids": [
-        "bitext_26",
-        "bitext_23",
-        "bitext_11",
-        "bitext_14",
-        "bitext_5"
+        "bitext_18",
+        "bitext_27",
+        "bitext_12",
+        "bitext_24",
+        "bitext_9"
       ],
       "embedding": null,
       "embedding_30d": null,
       "validation_status": "accepted",
       "validation_details": {
-        "max_similarity": 0.01334824284783927,
+        "max_similarity": 0.11994376394872215,
         "min_exemplar_distance": 0.0
       },
       "accepted": true
     },
     {
-      "id": "gen_region_02_04",
-      "region_id": "region_02",
-      "content": "help  me canceling purchase {{Order Number}}",
+      "id": "gen_region_00_03",
+      "region_id": "region_00",
+      "content": "problem with canceling purchase {{Order Number}}",
       "raw": {
-        "eval_id": "cartograph_region_02_04",
+        "eval_id": "cartograph_region_00_03",
         "conversation": [
           {
             "role": "user",
-            "content": "help  me canceling purchase {{Order Number}}"
+            "content": "problem with canceling purchase {{Order Number}}"
           }
         ],
         "expected_final_response": "Handle the user request according to policy."
       },
       "grounded_in_corpus_ids": [
-        "bitext_26",
-        "bitext_23",
-        "bitext_11",
-        "bitext_14",
-        "bitext_5"
+        "bitext_18",
+        "bitext_27",
+        "bitext_12",
+        "bitext_24",
+        "bitext_9"
       ],
       "embedding": null,
       "embedding_30d": null,
       "validation_status": "accepted",
       "validation_details": {
-        "max_similarity": 0.06929134859619374,
+        "max_similarity": 0.040031014136452485,
         "min_exemplar_distance": 0.0
       },
       "accepted": true
     },
     {
-      "id": "gen_region_02_05",
-      "region_id": "region_02",
-      "content": "can you help me cancel order {{Order Number}}?",
+      "id": "gen_region_00_04",
+      "region_id": "region_00",
+      "content": "help cnceling order {{Order Number}}",
       "raw": {
-        "eval_id": "cartograph_region_02_05",
+        "eval_id": "cartograph_region_00_04",
         "conversation": [
           {
             "role": "user",
-            "content": "can you help me cancel order {{Order Number}}?"
+            "content": "help cnceling order {{Order Number}}"
           }
         ],
         "expected_final_response": "Handle the user request according to policy."
       },
       "grounded_in_corpus_ids": [
-        "bitext_26",
-        "bitext_23",
-        "bitext_11",
-        "bitext_14",
-        "bitext_5"
+        "bitext_18",
+        "bitext_27",
+        "bitext_12",
+        "bitext_24",
+        "bitext_9"
+      ],
+      "embedding": null,
+      "embedding_30d": null,
+      "validation_status": "accepted",
+      "validation_details": {
+        "max_similarity": 0.04918205141375948,
+        "min_exemplar_distance": 0.0
+      },
+      "accepted": true
+    },
+    {
+      "id": "gen_region_00_05",
+      "region_id": "region_00",
+      "content": "i need help canceling purchase {{Order Number}}",
+      "raw": {
+        "eval_id": "cartograph_region_00_05",
+        "conversation": [
+          {
+            "role": "user",
+            "content": "i need help canceling purchase {{Order Number}}"
+          }
+        ],
+        "expected_final_response": "Handle the user request according to policy."
+      },
+      "grounded_in_corpus_ids": [
+        "bitext_18",
+        "bitext_27",
+        "bitext_12",
+        "bitext_24",
+        "bitext_9"
       ],
       "embedding": null,
       "embedding_30d": null,
@@ -389,61 +400,300 @@
       "accepted": true
     },
     {
-      "id": "gen_region_02_06",
-      "region_id": "region_02",
-      "content": "need assistance cancelling order {{Order Number}}",
+      "id": "gen_region_00_06",
+      "region_id": "region_00",
+      "content": "need help with canceling order {{Order Number}}",
       "raw": {
-        "eval_id": "cartograph_region_02_06",
+        "eval_id": "cartograph_region_00_06",
         "conversation": [
           {
             "role": "user",
-            "content": "need assistance cancelling order {{Order Number}}"
+            "content": "need help with canceling order {{Order Number}}"
           }
         ],
         "expected_final_response": "Handle the user request according to policy."
       },
       "grounded_in_corpus_ids": [
-        "bitext_26",
-        "bitext_23",
-        "bitext_11",
-        "bitext_14",
-        "bitext_5"
+        "bitext_18",
+        "bitext_27",
+        "bitext_12",
+        "bitext_24",
+        "bitext_9"
       ],
       "embedding": null,
       "embedding_30d": null,
       "validation_status": "accepted",
       "validation_details": {
-        "max_similarity": 0.024428120935107916,
+        "max_similarity": 0.0,
         "min_exemplar_distance": 0.0
       },
       "accepted": true
     },
     {
-      "id": "gen_region_02_07",
-      "region_id": "region_02",
-      "content": "This request is unrelated to region_02: compare mortgage refinancing options.",
+      "id": "gen_region_00_07",
+      "region_id": "region_00",
+      "content": "This request is unrelated to region_00: compare mortgage refinancing options.",
       "raw": {
-        "eval_id": "cartograph_region_02_07",
+        "eval_id": "cartograph_region_00_07",
         "conversation": [
           {
             "role": "user",
-            "content": "This request is unrelated to region_02: compare mortgage refinancing options."
+            "content": "This request is unrelated to region_00: compare mortgage refinancing options."
           }
         ],
         "expected_final_response": "Handle the user request according to policy."
       },
       "grounded_in_corpus_ids": [
-        "bitext_26",
-        "bitext_23",
-        "bitext_11",
-        "bitext_14",
-        "bitext_5"
+        "bitext_18",
+        "bitext_27",
+        "bitext_12",
+        "bitext_24",
+        "bitext_9"
       ],
       "embedding": null,
       "embedding_30d": null,
       "validation_status": "rejected_off_corpus",
       "validation_details": {
-        "min_exemplar_distance": 0.5707951279544549
+        "min_exemplar_distance": 0.7013013067431493
+      },
+      "accepted": false
+    },
+    {
+      "id": "gen_region_01_00",
+      "region_id": "region_01",
+      "content": "hi,",
+      "raw": {
+        "eval_id": "cartograph_region_01_00",
+        "conversation": [
+          {
+            "role": "user",
+            "content": "hi,"
+          }
+        ],
+        "expected_final_response": "Handle the user request according to policy."
+      },
+      "grounded_in_corpus_ids": [
+        "bitext_13",
+        "bitext_16",
+        "bitext_19",
+        "bitext_7",
+        "bitext_22"
+      ],
+      "embedding": null,
+      "embedding_30d": null,
+      "validation_status": "rejected_redundant",
+      "validation_details": {
+        "max_similarity": 1.0,
+        "duplicate_of_case_id": "customer_service_01"
+      },
+      "accepted": false
+    },
+    {
+      "id": "gen_region_01_01",
+      "region_id": "region_01",
+      "content": "can you help me canceling order {{Order Number}}?",
+      "raw": {
+        "eval_id": "cartograph_region_01_01",
+        "conversation": [
+          {
+            "role": "user",
+            "content": "can you help me canceling order {{Order Number}}?"
+          }
+        ],
+        "expected_final_response": "Handle the user request according to policy."
+      },
+      "grounded_in_corpus_ids": [
+        "bitext_13",
+        "bitext_16",
+        "bitext_19",
+        "bitext_7",
+        "bitext_22"
+      ],
+      "embedding": null,
+      "embedding_30d": null,
+      "validation_status": "accepted",
+      "validation_details": {
+        "max_similarity": 0.03997858589932125,
+        "min_exemplar_distance": 0.0
+      },
+      "accepted": true
+    },
+    {
+      "id": "gen_region_01_02",
+      "region_id": "region_01",
+      "content": "what do I have to do to cancel purchase {{Order Number}}?",
+      "raw": {
+        "eval_id": "cartograph_region_01_02",
+        "conversation": [
+          {
+            "role": "user",
+            "content": "what do I have to do to cancel purchase {{Order Number}}?"
+          }
+        ],
+        "expected_final_response": "Handle the user request according to policy."
+      },
+      "grounded_in_corpus_ids": [
+        "bitext_13",
+        "bitext_16",
+        "bitext_19",
+        "bitext_7",
+        "bitext_22"
+      ],
+      "embedding": null,
+      "embedding_30d": null,
+      "validation_status": "accepted",
+      "validation_details": {
+        "max_similarity": 0.0,
+        "min_exemplar_distance": 0.0
+      },
+      "accepted": true
+    },
+    {
+      "id": "gen_region_01_03",
+      "region_id": "region_01",
+      "content": "i want assistance canceling order {{Order Number}}",
+      "raw": {
+        "eval_id": "cartograph_region_01_03",
+        "conversation": [
+          {
+            "role": "user",
+            "content": "i want assistance canceling order {{Order Number}}"
+          }
+        ],
+        "expected_final_response": "Handle the user request according to policy."
+      },
+      "grounded_in_corpus_ids": [
+        "bitext_13",
+        "bitext_16",
+        "bitext_19",
+        "bitext_7",
+        "bitext_22"
+      ],
+      "embedding": null,
+      "embedding_30d": null,
+      "validation_status": "accepted",
+      "validation_details": {
+        "max_similarity": 0.0,
+        "min_exemplar_distance": 0.0
+      },
+      "accepted": true
+    },
+    {
+      "id": "gen_region_01_04",
+      "region_id": "region_01",
+      "content": "I am trying to cancel purchase {{Order Number}}",
+      "raw": {
+        "eval_id": "cartograph_region_01_04",
+        "conversation": [
+          {
+            "role": "user",
+            "content": "I am trying to cancel purchase {{Order Number}}"
+          }
+        ],
+        "expected_final_response": "Handle the user request according to policy."
+      },
+      "grounded_in_corpus_ids": [
+        "bitext_13",
+        "bitext_16",
+        "bitext_19",
+        "bitext_7",
+        "bitext_22"
+      ],
+      "embedding": null,
+      "embedding_30d": null,
+      "validation_status": "accepted",
+      "validation_details": {
+        "max_similarity": 0.006689106185898687,
+        "min_exemplar_distance": 0.0
+      },
+      "accepted": true
+    },
+    {
+      "id": "gen_region_01_05",
+      "region_id": "region_01",
+      "content": "assistance with cancelling pucrhase {{Order Number}}",
+      "raw": {
+        "eval_id": "cartograph_region_01_05",
+        "conversation": [
+          {
+            "role": "user",
+            "content": "assistance with cancelling pucrhase {{Order Number}}"
+          }
+        ],
+        "expected_final_response": "Handle the user request according to policy."
+      },
+      "grounded_in_corpus_ids": [
+        "bitext_13",
+        "bitext_16",
+        "bitext_19",
+        "bitext_7",
+        "bitext_22"
+      ],
+      "embedding": null,
+      "embedding_30d": null,
+      "validation_status": "accepted",
+      "validation_details": {
+        "max_similarity": 0.0,
+        "min_exemplar_distance": 0.0
+      },
+      "accepted": true
+    },
+    {
+      "id": "gen_region_01_06",
+      "region_id": "region_01",
+      "content": "can you help me canceling order {{Order Number}}?",
+      "raw": {
+        "eval_id": "cartograph_region_01_06",
+        "conversation": [
+          {
+            "role": "user",
+            "content": "can you help me canceling order {{Order Number}}?"
+          }
+        ],
+        "expected_final_response": "Handle the user request according to policy."
+      },
+      "grounded_in_corpus_ids": [
+        "bitext_13",
+        "bitext_16",
+        "bitext_19",
+        "bitext_7",
+        "bitext_22"
+      ],
+      "embedding": null,
+      "embedding_30d": null,
+      "validation_status": "accepted",
+      "validation_details": {
+        "max_similarity": 0.03997858589932125,
+        "min_exemplar_distance": 0.0
+      },
+      "accepted": true
+    },
+    {
+      "id": "gen_region_01_07",
+      "region_id": "region_01",
+      "content": "This request is unrelated to region_01: compare mortgage refinancing options.",
+      "raw": {
+        "eval_id": "cartograph_region_01_07",
+        "conversation": [
+          {
+            "role": "user",
+            "content": "This request is unrelated to region_01: compare mortgage refinancing options."
+          }
+        ],
+        "expected_final_response": "Handle the user request according to policy."
+      },
+      "grounded_in_corpus_ids": [
+        "bitext_13",
+        "bitext_16",
+        "bitext_19",
+        "bitext_7",
+        "bitext_22"
+      ],
+      "embedding": null,
+      "embedding_30d": null,
+      "validation_status": "rejected_off_corpus",
+      "validation_details": {
+        "min_exemplar_distance": 0.8802047274755436
       },
       "accepted": false
     }
@@ -456,13 +706,13 @@
       "data/adk_samples/python/agents/customer-service/customer_service",
       "data/precomputed/customer-service.evalset.json"
     ],
-    "exit_code": 1,
-    "pass_count": null,
-    "fail_count": null,
-    "pass_rate": null,
+    "exit_code": 0,
+    "pass_count": 0,
+    "fail_count": 2,
+    "pass_rate": 0.0,
     "stdout": "Using evaluation criteria: criteria={'tool_trajectory_avg_score': 1.0, 'response_match_score': 0.8} custom_metrics=None user_simulator_config=None",
-    "stderr": "SERVICE_DISABLED",
-    "duration_seconds": 13.26589697797317
+    "stderr": "ADK runtime warnings suppressed",
+    "duration_seconds": 20.15266421996057
   },
   "eval_run_after": {
     "label": "after",
@@ -470,20 +720,20 @@
       "adk",
       "eval",
       "data/adk_samples/python/agents/customer-service/customer_service",
-      "data/audits/audit_504accf3d80e/eval_run_after.evalset.json"
+      "data/audits/audit_90ed13456cac/eval_run_after.evalset.json"
     ],
-    "exit_code": 1,
-    "pass_count": null,
-    "fail_count": null,
-    "pass_rate": null,
+    "exit_code": 0,
+    "pass_count": 0,
+    "fail_count": 14,
+    "pass_rate": 0.0,
     "stdout": "Using evaluation criteria: criteria={'tool_trajectory_avg_score': 1.0, 'response_match_score': 0.8} custom_metrics=None user_simulator_config=None",
-    "stderr": "SERVICE_DISABLED",
-    "duration_seconds": 11.678567982045934
+    "stderr": "ADK runtime warnings suppressed",
+    "duration_seconds": 39.56680223206058
   },
   "decisions": [
     {
       "step": 1,
-      "timestamp": "2026-05-05T19:37:32.796508",
+      "timestamp": "2026-05-05T19:54:29.235943",
       "action": "ingest",
       "inputs": {
         "corpus_source": "bitext",
@@ -496,7 +746,7 @@
     },
     {
       "step": 2,
-      "timestamp": "2026-05-05T19:37:32.829691",
+      "timestamp": "2026-05-05T19:54:29.270205",
       "action": "invoke_mapper",
       "inputs": {
         "corpus_source": "bitext"
@@ -515,25 +765,35 @@
     },
     {
       "step": 3,
-      "timestamp": "2026-05-05T19:37:36.461226",
+      "timestamp": "2026-05-05T19:54:31.663128",
       "action": "invoke_auditor",
       "inputs": {
         "eval_path": "data/precomputed/customer-service.evalset.json"
       },
       "outputs": {
-        "coverage_score": 0.6666666666666666,
-        "covered_regions": 2,
-        "uncovered_regions": 1,
+        "coverage_score": 0.3333333333333333,
+        "covered_regions": 1,
+        "uncovered_regions": 2,
         "top_gaps": [
           {
-            "region_id": "region_02",
-            "risk_score": 0.33206562400666345,
+            "region_id": "region_01",
+            "risk_score": 0.33233809198113723,
             "components": {
               "density": 0.3333333333333333,
-              "heterogeneity": 0.9961968720199904,
+              "heterogeneity": 0.9970142759434117,
               "distance": 1.0
             },
             "rank": 1
+          },
+          {
+            "region_id": "region_00",
+            "risk_score": 0.3216630399653621,
+            "components": {
+              "density": 0.3333333333333333,
+              "heterogeneity": 0.9978563783690774,
+              "distance": 0.9670621352075636
+            },
+            "rank": 2
           }
         ]
       },
@@ -541,43 +801,45 @@
     },
     {
       "step": 4,
-      "timestamp": "2026-05-05T19:37:36.468879",
+      "timestamp": "2026-05-05T19:54:31.670264",
       "action": "decide_continue",
       "inputs": {
         "threshold": 0.75
       },
       "outputs": {
         "terminate": false,
-        "reason": "coverage 0.67 below threshold"
+        "reason": "coverage 0.33 below threshold"
       },
-      "reason": "coverage 0.67 below threshold"
+      "reason": "coverage 0.33 below threshold"
     },
     {
       "step": 5,
-      "timestamp": "2026-05-05T19:37:38.330627",
+      "timestamp": "2026-05-05T19:54:32.551691",
       "action": "invoke_generator",
       "inputs": {
         "region_ids": [
-          "region_02"
+          "region_01",
+          "region_00"
         ]
       },
       "outputs": {
         "target_regions": [
-          "region_02"
+          "region_01",
+          "region_00"
         ],
-        "generated": 8,
-        "accepted": 6,
-        "rejected": 2,
+        "generated": 16,
+        "accepted": 12,
+        "rejected": 4,
         "output_path": "data/precomputed/customer-service_cartograph_generated.evalset.json"
       },
       "reason": "generated and validated eval candidates"
     },
     {
       "step": 6,
-      "timestamp": "2026-05-05T19:37:40.351435",
+      "timestamp": "2026-05-05T19:54:33.142204",
       "action": "invoke_auditor",
       "inputs": {
-        "eval_path": "data/audits/audit_504accf3d80e/eval_run_after.evalset.json"
+        "eval_path": "data/audits/audit_90ed13456cac/eval_run_after.evalset.json"
       },
       "outputs": {
         "coverage_score": 1.0,
@@ -589,7 +851,7 @@
     },
     {
       "step": 7,
-      "timestamp": "2026-05-05T19:37:40.359764",
+      "timestamp": "2026-05-05T19:54:33.148808",
       "action": "decide_terminate",
       "inputs": {
         "threshold": 0.75
@@ -602,17 +864,17 @@
     },
     {
       "step": 8,
-      "timestamp": "2026-05-05T19:37:52.060605",
+      "timestamp": "2026-05-05T19:55:12.743179",
       "action": "format_final_report",
       "inputs": {},
       "outputs": {
-        "audit_id": "audit_504accf3d80e"
+        "audit_id": "audit_90ed13456cac"
       },
       "reason": "final report ready"
     }
   ],
   "warnings": [
-    "8 eval assignments had distance > 0.35"
+    "14 eval assignments had distance > 0.35"
   ],
-  "created_at": "2026-05-05T19:37:19"
+  "created_at": "2026-05-05T19:54:09"
 }

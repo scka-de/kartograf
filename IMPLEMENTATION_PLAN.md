@@ -48,7 +48,7 @@ Build Cartograph v1 as a Python package with:
 | `pip install -e ".[full,dev]"` succeeds | `.venv/bin/python -m pip install -e ".[full,dev]"` succeeded after making `umap-learn==0.5.5` conditional on non-macOS-x86_64 platforms; this environment uses the deterministic reducer fallback. | Passed |
 | `cartograph version` prints version | `.venv/bin/cartograph version` printed `0.1.0`; `python -m cartograph.cli version` also printed `0.1.0`. | Passed |
 | `cartograph corpus list` prints adapters | `.venv/bin/cartograph corpus list` printed `bitext`, `github`, and `stackexchange`. | Passed |
-| `pytest` passes | `.venv/bin/python -m pytest` passed: 53 passed, 1 skipped, 54 collected. | Passed |
+| `pytest` passes | `.venv/bin/python -m pytest` passed: 56 passed, 1 skipped, 57 collected. | Passed |
 | `mypy cartograph/core` passes | `python -m mypy cartograph/core` passed with `strict = true` and missing-import overrides for optional `umap`, `hdbscan`, `joblib`. | Passed |
 | `ruff check cartograph` passes | `.venv/bin/python -m ruff check cartograph tests scripts` passed. | Passed |
 | `bash scripts/run_demo.sh` exits 0 | Passed for latest full-script audit `audit_6a42a655f8cc`; generated required JSON/PNG/reducer artifacts and stdout strings, including `adk_eval_blocker`. Customer-service coverage moved `0.67 -> 1.00`. | Passed |
@@ -66,8 +66,8 @@ Build Cartograph v1 as a Python package with:
 | Real MCP SDK import | `.venv/bin/python` imported `mcp.server.fastmcp.FastMCP` and `run_stdio_server`. | Passed |
 | Real Bitext corpus path | `.venv/bin/python` downloaded/cached HuggingFace Bitext and reported 26,872 examples with `mode: real`. | Passed |
 | Real ADK sample checkout | `scripts/clone_adk_samples.py` cloned `google/adk-samples` into `data/adk_samples`; customer-service eval path is converted from the sample's `simple.test.json`. | Passed |
-| Real ADK eval reaches model call | Escalated `CARTOGRAPH_RUN_E2E=1 GOOGLE_GENAI_USE_VERTEXAI=0 .venv/bin/python -m pytest -m e2e` invoked `.venv/bin/adk eval` against the cloned customer-service module and converted evalset; ADK used `GoogleLLMVariant.GEMINI_API` and reached Gemini, then failed with `403 PERMISSION_DENIED` / `SERVICE_DISABLED` because `generativelanguage.googleapis.com` is disabled for Google project `283592078226`. | Blocked externally |
-| Opt-in live e2e smoke test | `tests/test_e2e_smoke.py` now runs `run_customer_service_deep_dive(limit=30)` when `CARTOGRAPH_RUN_E2E=1` and Google runtime credentials are configured, then asserts coverage threshold and non-null before/after pass rates. It skips by default without live credentials. | Blocked externally |
+| Real ADK eval reaches model call | Escalated `CARTOGRAPH_RUN_E2E=1 GOOGLE_GENAI_USE_VERTEXAI=1 .venv/bin/python -m pytest -m e2e` invoked `.venv/bin/adk eval` against the cloned customer-service module and converted evalset using Vertex AI project `kartograf-495419`; latest audit `audit_90ed13456cac` completed with coverage `1.00`, before pass/fail `0/2`, and after pass/fail `0/14`. | Passed |
+| Opt-in live e2e smoke test | `tests/test_e2e_smoke.py` now runs `run_customer_service_deep_dive(limit=30)` when `CARTOGRAPH_RUN_E2E=1` and Google runtime credentials are configured, then asserts coverage threshold and non-null before/after pass rates. Escalated Vertex run passed: 1 passed, 55 deselected in 63.88s. | Passed |
 
 ## Completion Audit
 
@@ -93,7 +93,7 @@ Concrete deliverables requested by the prompt:
 | Embeddings wrapper and cache | `cartograph/core/embeddings.py`, `data/embeddings/*`, demo output | Gemini path is used when `GOOGLE_API_KEY` exists; deterministic fallback keeps local demo/tests runnable. | Done |
 | Clustering, reducers, and 30d convention | `cartograph/core/clustering.py`, `cartograph/core/math.py`, `tests/test_core_clustering.py` | 30d reducer and 2d visual reducer are persisted; tests cover reducer round trip and dimensions. | Done |
 | Coverage and risk scoring | `cartograph/core/coverage.py`, `cartograph/core/risk.py`, tests | Pure functions verified with unit tests. | Done |
-| ADK eval subprocess wrapper | `cartograph/core/adk_eval.py`, `tests/test_core_adk_eval.py`, live demo reports | Parser/env/timeout behavior tested; live command reaches Google model runtime but pass rates are externally blocked. | Blocked externally for pass rates |
+| ADK eval subprocess wrapper | `cartograph/core/adk_eval.py`, `tests/test_core_adk_eval.py`, live demo reports | Parser/env/timeout behavior tested; live command reaches Vertex model runtime and parses ADK `Tests passed` / `Tests failed` summaries. | Done |
 | ADK-shaped root and sub-agents | `cartograph/agents/*.py`, `cartograph/agents/adk_factory.py`, `tests/test_agent_adk_factory.py` | Real `google-adk==1.32.0` factory builds root `cartograph` with mapper/auditor/generator sub-agents. | Done |
 | Root orchestrator workflow and loop limit | `cartograph/agents/root.py`, `tests/test_orchestrator_decisions.py`, latest demo output | Re-audits merged generated evalset; customer-service terminates after one generation round at coverage `1.00`; loop limit implemented. | Done |
 | Generator validates redundancy and off-corpus cases | `cartograph/agents/generator.py`, `cartograph/core/validation.py`, tests, demo output | Negative-control duplicate is rejected; accepted cases cover target region; off-corpus path covered by tests. | Done |
@@ -110,8 +110,8 @@ Concrete deliverables requested by the prompt:
 | Visualization PNGs | `cartograph/demo/visualize.py`, `data/audits/<audit_id>/viz/*.png` | `regions.png`, `coverage.png`, `before_after.png` generated by acceptance script. | Done |
 | Final acceptance script | `scripts/run_demo.sh` | Latest verified run exited 0 for `audit_6a42a655f8cc`; generated required visualizations and stdout contract. | Done |
 | README smoke-demo docs | `README.md` | Install, env vars, quickstart, demo command, e2e command, proposal/spec links, runtime notes documented. | Done |
-| Tests and quality gates | `.venv/bin/python -m pytest`, `ruff`, `mypy cartograph/core` | Latest full suite: 53 passed, 1 skipped, 54 collected; ruff and mypy pass. | Done |
-| Live e2e with real pass rates | `tests/test_e2e_smoke.py`, `CARTOGRAPH_RUN_E2E=1 ... pytest -m e2e` | Test is actionable but skipped until Google credentials/project config can produce non-null ADK pass rates. | Blocked externally |
+| Tests and quality gates | `.venv/bin/python -m pytest`, `ruff`, `mypy cartograph/core` | Latest full suite: 56 passed, 1 skipped, 57 collected; ruff and mypy pass. | Done |
+| Live e2e with real pass rates | `tests/test_e2e_smoke.py`, `CARTOGRAPH_RUN_E2E=1 ... pytest -m e2e` | Escalated Vertex run passed with audit `audit_90ed13456cac`, coverage `1.00`, non-null before pass rate `0.0`, and non-null after pass rate `0.0`. | Done |
 | Submission recording | External artifact | Not present in workspace; requires human recording. | Blocked externally |
 | GitHub repository and devpost link | External publishing artifacts | Private interim repo exists at `https://github.com/scka-de/kartograf` and `main` tracks `origin/main`. Final submission still requires making the repo public and preparing the devpost URL. | Partially done |
 
@@ -127,11 +127,11 @@ Current high-confidence evidence:
 
 Remaining gaps before the full spec can honestly be called complete:
 
-- ADK agent factory exists in `cartograph/agents/adk_factory.py` and was verified against installed `google-adk==1.32.0`; full ADK runner pass-rate execution with working Google model credentials/project configuration is still not verified.
+- ADK agent factory exists in `cartograph/agents/adk_factory.py` and was verified against installed `google-adk==1.32.0`; full ADK runner pass-rate execution is now verified through the live Vertex e2e smoke test.
 - MCP modules instantiate an MCP SDK stdio server when `mcp.server.fastmcp` is installed; real stdio tool discovery is covered for all six modules and a call round trip is covered for `eval_io_git`.
-- The suite exceeds the spec target of 30 collected tests and includes `test_agent_generator.py` plus a real opt-in `test_e2e_smoke.py`, but the e2e test is intentionally skipped until live Google credentials/caches are available.
+- The suite exceeds the spec target of 30 collected tests and includes `test_agent_generator.py` plus a real opt-in `test_e2e_smoke.py`; the opt-in e2e passed with Vertex credentials and remains skipped by default.
 - Fleet fallback behavior is now honest: `customer-service` uses the real cached HuggingFace Bitext path; StackExchange `money` and GitHub `psf/requests` live paths were verified after full extras install; bundled fallback fixtures now satisfy the 30-item spec assumption.
-- Real `adk eval` is now wired against the checked-out customer-service sample and converted evalset, and the Gemini Developer API key path has been exercised. Pass-rate numbers remain `None` because the key's Google project `283592078226` has `generativelanguage.googleapis.com` disabled (`403 PERMISSION_DENIED` / `SERVICE_DISABLED`). Enabling the Gemini API for that project, or using a key from a project where it is already enabled, is required to verify pass rates.
+- Real `adk eval` is now wired against the checked-out customer-service sample and converted evalset, and the Vertex path has been exercised successfully. Current customer-service ADK pass rates are non-null but low: before `0/2`, after `0/14`; this is enough for the pass-rate comparison contract but not an agent-quality win.
 - Submission-readiness items remain out of band: 4-minute recording, making the GitHub repo public, and devpost link.
 
 ## Known Constraints

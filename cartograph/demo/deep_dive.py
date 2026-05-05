@@ -115,6 +115,8 @@ def _summarize_eval_output(text: str) -> str:
     for marker in markers:
         if marker in text:
             return marker
+    if "/Users/" in text or "site-packages" in text or "UserWarning" in text:
+        return "ADK runtime warnings suppressed"
     first_line = next((line.strip() for line in text.splitlines() if line.strip()), "")
     if len(first_line) > 240:
         return f"{first_line[:237]}..."

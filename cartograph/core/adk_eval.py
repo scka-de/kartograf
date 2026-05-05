@@ -80,6 +80,14 @@ def parse_adk_output(stdout: str) -> tuple[int | None, int | None, float | None]
         failed = max(0, total - passed)
         return passed, failed, passed / total if total else None
 
+    passed_match = re.search(r"Tests\s+passed:\s*(\d+)", stdout, re.IGNORECASE)
+    failed_match = re.search(r"Tests\s+failed:\s*(\d+)", stdout, re.IGNORECASE)
+    if passed_match and failed_match:
+        passed = int(passed_match.group(1))
+        failed = int(failed_match.group(1))
+        total = passed + failed
+        return passed, failed, passed / total if total else None
+
     match = re.search(r"(?:pass_rate|passed)\s*[:=]\s*(0(?:\.\d+)?|1(?:\.0+)?)", stdout)
     if match:
         return None, None, float(match.group(1))

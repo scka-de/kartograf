@@ -13,6 +13,16 @@ def test_parse_pass_rate_only():
     assert parse_adk_output("pass_rate: 0.85") == (None, None, 0.85)
 
 
+def test_parse_adk_tests_passed_failed_summary():
+    output = """
+    Eval Run Summary
+    customer_service_cartograph:
+      Tests passed: 2
+      Tests failed: 6
+    """
+    assert parse_adk_output(output) == (2, 6, 0.25)
+
+
 def test_parse_unknown_output_returns_nones():
     assert parse_adk_output("no summary available") == (None, None, None)
 

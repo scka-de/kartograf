@@ -24,7 +24,7 @@ Set `GOOGLE_API_KEY` for Gemini embeddings/generation. Set `GITHUB_TOKEN` only f
 For real `adk eval` pass-rate verification, configure one of the Google runtime paths:
 
 - Gemini Developer API: set `GOOGLE_API_KEY` and `GOOGLE_GENAI_USE_VERTEXAI=0`.
-- Vertex AI: set `GOOGLE_GENAI_USE_VERTEXAI=1`, `GOOGLE_CLOUD_PROJECT`, and `GOOGLE_CLOUD_LOCATION`, then enable the Agent Platform API for that project.
+- Vertex AI: set `GOOGLE_GENAI_USE_VERTEXAI=1`, `GOOGLE_CLOUD_PROJECT`, and `GOOGLE_CLOUD_LOCATION`, then enable the Agent Platform API for that project. `GOOGLE_CLOUD_PROJECT` must be the project ID, not the display name.
 
 ## Quickstart
 
