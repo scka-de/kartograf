@@ -62,13 +62,17 @@ def _adk_eval_blocker(report: object) -> str | None:
         stderr = str(getattr(run, "stderr", "") or "")
         stdout = str(getattr(run, "stdout", "") or "")
         text = f"{stderr}\n{stdout}"
-        if "SERVICE_DISABLED" in text or "aiplatform.googleapis.com" in text:
+        if "generativelanguage.googleapis.com" in text and "SERVICE_DISABLED" in text:
+            messages.append("Gemini API is disabled or unavailable")
+        elif "aiplatform.googleapis.com" in text and "SERVICE_DISABLED" in text:
             messages.append("Vertex Agent Platform API is disabled or unavailable")
+        elif "SERVICE_DISABLED" in text:
+            messages.append("Google API service is disabled or unavailable")
         elif "API_KEY" in text or "GOOGLE_API_KEY" in text:
             messages.append("GOOGLE_API_KEY is missing or invalid")
         elif "oauth2.googleapis.com" in text:
             messages.append("Google OAuth endpoint is unreachable")
-        elif getattr(run, "returncode", 0):
+        elif getattr(run, "exit_code", 0):
             messages.append("adk eval returned a non-zero exit code")
     if not messages:
         return None

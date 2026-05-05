@@ -1,5 +1,5 @@
 {
-  "audit_id": "audit_6a42a655f8cc",
+  "audit_id": "audit_504accf3d80e",
   "target_agent": "data/adk_samples/python/agents/customer-service/customer_service",
   "corpus_source": "bitext",
   "corpus_size": 30,
@@ -461,8 +461,8 @@
     "fail_count": null,
     "pass_rate": null,
     "stdout": "Using evaluation criteria: criteria={'tool_trajectory_avg_score': 1.0, 'response_match_score': 0.8} custom_metrics=None user_simulator_config=None",
-    "stderr": "oauth2.googleapis.com",
-    "duration_seconds": 13.012414277065545
+    "stderr": "SERVICE_DISABLED",
+    "duration_seconds": 13.26589697797317
   },
   "eval_run_after": {
     "label": "after",
@@ -470,20 +470,20 @@
       "adk",
       "eval",
       "data/adk_samples/python/agents/customer-service/customer_service",
-      "data/audits/audit_6a42a655f8cc/eval_run_after.evalset.json"
+      "data/audits/audit_504accf3d80e/eval_run_after.evalset.json"
     ],
     "exit_code": 1,
     "pass_count": null,
     "fail_count": null,
     "pass_rate": null,
     "stdout": "Using evaluation criteria: criteria={'tool_trajectory_avg_score': 1.0, 'response_match_score': 0.8} custom_metrics=None user_simulator_config=None",
-    "stderr": "oauth2.googleapis.com",
-    "duration_seconds": 14.698254722054116
+    "stderr": "SERVICE_DISABLED",
+    "duration_seconds": 11.678567982045934
   },
   "decisions": [
     {
       "step": 1,
-      "timestamp": "2026-05-04T21:12:30.562095",
+      "timestamp": "2026-05-05T19:37:32.796508",
       "action": "ingest",
       "inputs": {
         "corpus_source": "bitext",
@@ -496,7 +496,7 @@
     },
     {
       "step": 2,
-      "timestamp": "2026-05-04T21:12:30.586469",
+      "timestamp": "2026-05-05T19:37:32.829691",
       "action": "invoke_mapper",
       "inputs": {
         "corpus_source": "bitext"
@@ -515,7 +515,7 @@
     },
     {
       "step": 3,
-      "timestamp": "2026-05-04T21:12:30.630125",
+      "timestamp": "2026-05-05T19:37:36.461226",
       "action": "invoke_auditor",
       "inputs": {
         "eval_path": "data/precomputed/customer-service.evalset.json"
@@ -541,7 +541,7 @@
     },
     {
       "step": 4,
-      "timestamp": "2026-05-04T21:12:30.636462",
+      "timestamp": "2026-05-05T19:37:36.468879",
       "action": "decide_continue",
       "inputs": {
         "threshold": 0.75
@@ -554,7 +554,7 @@
     },
     {
       "step": 5,
-      "timestamp": "2026-05-04T21:12:30.661231",
+      "timestamp": "2026-05-05T19:37:38.330627",
       "action": "invoke_generator",
       "inputs": {
         "region_ids": [
@@ -574,10 +574,10 @@
     },
     {
       "step": 6,
-      "timestamp": "2026-05-04T21:12:30.690816",
+      "timestamp": "2026-05-05T19:37:40.351435",
       "action": "invoke_auditor",
       "inputs": {
-        "eval_path": "data/audits/audit_6a42a655f8cc/eval_run_after.evalset.json"
+        "eval_path": "data/audits/audit_504accf3d80e/eval_run_after.evalset.json"
       },
       "outputs": {
         "coverage_score": 1.0,
@@ -589,7 +589,7 @@
     },
     {
       "step": 7,
-      "timestamp": "2026-05-04T21:12:30.698519",
+      "timestamp": "2026-05-05T19:37:40.359764",
       "action": "decide_terminate",
       "inputs": {
         "threshold": 0.75
@@ -602,11 +602,11 @@
     },
     {
       "step": 8,
-      "timestamp": "2026-05-04T21:12:45.416954",
+      "timestamp": "2026-05-05T19:37:52.060605",
       "action": "format_final_report",
       "inputs": {},
       "outputs": {
-        "audit_id": "audit_6a42a655f8cc"
+        "audit_id": "audit_504accf3d80e"
       },
       "reason": "final report ready"
     }
@@ -614,5 +614,5 @@
   "warnings": [
     "8 eval assignments had distance > 0.35"
   ],
-  "created_at": "2026-05-04T21:12:17"
+  "created_at": "2026-05-05T19:37:19"
 }
