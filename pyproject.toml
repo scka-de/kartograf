@@ -3,9 +3,9 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "cartograph"
-version = "0.1.0"
-description = "Semantic coverage auditor for agent eval suites"
+name = "kartograf"
+version = "0.2.0"
+description = "Semantic coverage map for agent eval suites — plot the embeddings, see the gaps, propose tests"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
@@ -21,15 +21,9 @@ full = [
   "google-adk>=1.0",
   "google-genai>=0.5",
   "mcp>=1.2",
-  "hdbscan>=0.8",
   "umap-learn==0.5.5; sys_platform != 'darwin' or platform_machine != 'x86_64'",
+  "scipy>=1.11",
   "joblib>=1.3",
-  "datasets>=2.18",
-  "PyGithub>=2.1",
-  "stackapi>=0.2",
-  "matplotlib>=3.8",
-  "seaborn>=0.13",
-  "pyyaml>=6",
 ]
 dev = [
   "pytest>=7.4",
@@ -40,13 +34,10 @@ dev = [
 ]
 
 [project.scripts]
-cartograph = "cartograph.cli:app"
+kartograf = "cartograph.cli:app"
 
 [tool.setuptools.packages.find]
 include = ["cartograph*"]
-
-[tool.setuptools.package-data]
-cartograph = ["demo/mocks/*.json"]
 
 [tool.ruff]
 line-length = 100
@@ -54,6 +45,10 @@ target-version = "py311"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.per-file-ignores]
+"cartograph/report.py" = ["E501"]
+"cartograph/cli.py" = ["B008"]  # typer idiom: Option() in argument defaults
 
 [tool.mypy]
 python_version = "3.11"

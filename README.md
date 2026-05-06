@@ -1,79 +1,137 @@
-# Cartograph
+# Kartograf
 
-Cartograph audits whether an agent eval suite represents the semantic world the agent actually faces. It maps a real corpus, projects existing evals into that map, reports semantic coverage gaps, and proposes corpus-grounded eval cases.
+> *Plot the embeddings. See the gaps. Close them.*
 
-The builder-facing source of truth is [docs/cartograph_implementation_spec.md](docs/cartograph_implementation_spec.md). The judge-facing proposal is [docs/cartograph_proposal.md](docs/cartograph_proposal.md).
+**Kartograf** audits an AI agent's eval suite by mapping the *conceptual surface area*
+the agent declares (its tool descriptions, system prompts, docstrings, eval inputs) into
+a 2D semantic map, then finding the regions where the agent claims to do things its
+existing tests do not exercise — and proposing BDD-style eval cases to close each gap.
+
+It runs on a single Python agent repository. **No external corpus, no production traces,
+no labeled dataset required** — the repo is the ground truth.
+
+```bash
+kartograf map --target ./path/to/agent --output map.html
+open map.html
+```
+
+You see a 2D map: surfaces colored by kind (tool / prompt / docstring), eval cases
+overlaid as diamonds, and red regions where surfaces cluster but no test reaches.
+Hover any point for source. Click a gap region for a Gemini-generated BDD eval case
+grounded in the surrounding surfaces.
 
 ## Install
 
 ```bash
 python3.11 -m venv .venv
 source .venv/bin/activate
-pip install -e ".[dev]"
-```
-
-For live external integrations:
-
-```bash
 pip install -e ".[full,dev]"
 cp .env.example .env
+# put GOOGLE_API_KEY in .env (Gemini API enabled)
 ```
 
-Set `GOOGLE_API_KEY` for Gemini embeddings/generation. Set `GITHUB_TOKEN` only for private repositories or higher GitHub API limits; public demo issue fetches work unauthenticated. Without keys, Cartograph uses deterministic local fallbacks so the smoke demo remains runnable.
-
-For real `adk eval` pass-rate verification, configure one of the Google runtime paths:
-
-- Gemini Developer API: set `GOOGLE_API_KEY` and `GOOGLE_GENAI_USE_VERTEXAI=0`.
-- Vertex AI: set `GOOGLE_GENAI_USE_VERTEXAI=1`, `GOOGLE_CLOUD_PROJECT`, and `GOOGLE_CLOUD_LOCATION`, then enable the Agent Platform API for that project. `GOOGLE_CLOUD_PROJECT` must be the project ID, not the display name.
+The `full` extra includes `google-genai`, `umap-learn`, `scipy`. Without `GOOGLE_API_KEY`
+the pipeline falls back to a deterministic local embedder; coverage numbers will be
+artificially high.
 
 ## Quickstart
 
-```bash
-cartograph version
-cartograph audit --target python/agents/customer-service --corpus bitext --eval-path data/precomputed/customer-service.evalset.json --corpus-limit 30
-cartograph report --latest
-```
-
-## Demo
-
-Warm-cache smoke demo:
+### Audit one of the bundled ADK samples
 
 ```bash
-bash scripts/run_demo.sh
+kartograf map \
+  --target data/adk_samples/python/agents/customer-service \
+  --output docs/figures/kartograf_map_customer_service.html
+open docs/figures/kartograf_map_customer_service.html
 ```
 
-Manual steps:
+### Audit your own agent repo
 
 ```bash
-cartograph demo prepare
-cartograph demo run customer-service
-cartograph demo visualize <audit_id>
+kartograf map --target /path/to/your/agent --output map.html
 ```
 
-The full cold prepare path can take up to 30 minutes with live HuggingFace, StackExchange, GitHub, and Gemini calls. The fallback path uses committed fixtures for non-customer-service corpora and still emits `corpus_mode` so the recording can be narrated honestly.
+Kartograf parses every `.py` file under `--target`, harvests:
 
-For final publication and the four-minute recording flow, use
-[docs/submission_checklist.md](docs/submission_checklist.md).
+- **Tool descriptions** — first paragraph of each public function's docstring
+- **Tool args** — the `Args:` block of each tool docstring
+- **Prompt sentences** — top-level string constants matching `*INSTRUCTION*` / `*PROMPT*` / `*SYSTEM*`
+- **Public docstrings** — first paragraph of every public class and function
+
+…and every `.evalset.json` / `.test.json` for eval inputs. If the surface count is
+under 30, Kartograf refuses to score and asks you to enrich the agent's declared
+contract first.
+
+### Read the map
+
+The interactive HTML page has the map on the left and a sidebar with:
+
+- A coverage score (0–1)
+- Gap regions ranked by integrated mass
+- For each region: 5 nearest surfaces and a Gemini-generated BDD eval case ready to copy
+  into your test suite
+
+For a complete didactic walkthrough of what every element of the map means, see
+[USER_GUIDE.md](USER_GUIDE.md).
+
+## How the math works
+
+Two density fields over the 2D UMAP projection:
+
+```
+ρ_S(x)  = surface density       (kernel density estimate of all declared surfaces)
+ρ_E(x)  = eval density          (kernel density estimate of eval inputs)
+g(x)    = max(0, ρ_S - α·ρ_E)   (the "gap field")
+```
+
+Connected components of `g(x) > τ` are gap regions, ranked by `∫ g dA`. For each region,
+the k nearest surfaces in the original 768-dimensional embedding space become the
+context for a Gemini call that produces one BDD-formatted eval case
+(*Scenario / Given / When / Then*), validated against existing eval queries for
+redundancy and against the surfaces for off-spec drift.
+
+`α` defaults to `|S|/|E|` so a small eval suite is not penalized purely for being
+outnumbered. Override with `--alpha`. `τ` is the 75th percentile of `g` on the surface
+support.
+
+The full proposal lives in [docs/proposal.md](docs/proposal.md).
+
+## Architecture
+
+```
+cartograph/
+├── core/           # shared math: embeddings (Gemini), 2D reducer
+├── surfaces.py     # AST-based surface harvesting from a Python repo
+├── evals.py        # eval input extraction (.evalset.json, .test.json)
+├── density.py      # KDE + gap field + connected-component gap detection
+├── generator.py    # Gemini-grounded BDD eval case synthesis with validation
+├── pipeline.py     # end-to-end orchestration
+├── report.py       # self-contained interactive HTML (Plotly)
+└── cli.py          # kartograf version | map
+```
 
 ## Development
 
 ```bash
 pytest
-ruff check cartograph
+ruff check .
 mypy cartograph/core
 ```
 
-Live pre-submission smoke test:
+Pre-submission gating (re-runs everything plus checks the hero artifacts are fresh):
 
 ```bash
 scripts/pre_submission_check.sh
-CARTOGRAPH_RUN_E2E=1 GOOGLE_API_KEY=... GOOGLE_GENAI_USE_VERTEXAI=0 pytest -m e2e
 ```
 
-## ADK and MCP Runtime Notes
+The hero artifacts (`docs/figures/kartograf_map_*.html`) must exist and not be older
+than any source file in `cartograph/`.
 
-The package can run offline for smoke tests. When `google-adk` is installed, `cartograph.agents.adk_factory.build_cartograph_adk_agent()` constructs a real ADK `LlmAgent` root with Mapper, Auditor, and Generator sub-agents. When `mcp` is installed, each `python -m cartograph.mcp_servers.*` module starts a stdio MCP server; otherwise it prints the available tool list for local inspection.
+## Platform support
 
-Linux and macOS are supported for v1.
+Linux and macOS. On macOS x86_64, the `full` extra falls back to a deterministic SVD
+reducer instead of forcing a local llvmlite build for UMAP.
 
-On macOS x86_64, the `full` extra uses Cartograph's deterministic reducer fallback instead of forcing a local `llvmlite` build for UMAP.
+## License
+
+Apache-2.0 — see [LICENSE](LICENSE).

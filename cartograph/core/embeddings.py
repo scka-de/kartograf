@@ -13,7 +13,16 @@ from numpy.typing import NDArray
 from .math import deterministic_embedding
 
 EMBEDDING_DIM = 768
-EMBEDDING_CACHE_DIR = Path("data/embeddings")
+
+
+def _default_cache_dir() -> Path:
+    override = os.environ.get("KARTOGRAF_CACHE_DIR")
+    if override:
+        return Path(override)
+    return Path.home() / ".cache" / "kartograf" / "embeddings"
+
+
+EMBEDDING_CACHE_DIR = _default_cache_dir()
 
 
 async def embed_texts(texts: list[str], cache_key: str | None = None) -> NDArray[np.float64]:
@@ -42,15 +51,18 @@ async def embed_texts(texts: list[str], cache_key: str | None = None) -> NDArray
 
 async def _embed_with_gemini(texts: list[str]) -> NDArray[np.float64]:
     genai: Any = importlib.import_module("google.genai")
+    types_mod: Any = importlib.import_module("google.genai.types")
     client = genai.Client(api_key=os.environ["GOOGLE_API_KEY"])
+    config = types_mod.EmbedContentConfig(output_dimensionality=EMBEDDING_DIM)
     vectors: list[list[float]] = []
     for start in range(0, len(texts), 100):
         batch = texts[start : start + 100]
         for attempt in range(2):
             try:
                 response: Any = client.models.embed_content(
-                    model="text-embedding-004",
+                    model="gemini-embedding-001",
                     contents=batch,
+                    config=config,
                 )
                 embeddings = response.embeddings or []
                 vectors.extend([list(embedding.values) for embedding in embeddings])

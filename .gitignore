@@ -5,11 +5,6 @@ __pycache__/
 .mypy_cache/
 .ruff_cache/
 *.egg-info/
-data/audits/
-data/corpora/
-data/embeddings/
+.DS_Store
 data/adk_samples/
-data/matplotlib/
-data/cache/
-!data/precomputed/
-!data/precomputed/.gitkeep
+data/embeddings/
