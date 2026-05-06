@@ -25,5 +25,8 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -e ".[full,dev]"
 
+      - name: Fetch ADK samples (shallow)
+        run: python scripts/clone_adk_samples.py
+
       - name: Run non-mutating pre-submission check
         run: scripts/pre_submission_check.sh
