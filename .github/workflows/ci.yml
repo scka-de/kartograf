@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  pre-submission:
+  verify:
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
@@ -28,5 +28,5 @@ jobs:
       - name: Fetch ADK samples (shallow)
         run: python scripts/clone_adk_samples.py
 
-      - name: Run non-mutating pre-submission check
-        run: scripts/pre_submission_check.sh
+      - name: Run verify
+        run: scripts/verify.sh

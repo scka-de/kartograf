@@ -32,4 +32,4 @@ for entry in "${HERO_HTMLS[@]}"; do
   echo "hero artifact OK ($HERO_HTML)"
 done
 
-echo "submission OK"
+echo "verify OK"

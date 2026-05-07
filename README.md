@@ -118,10 +118,10 @@ ruff check .
 mypy cartograph/core
 ```
 
-Pre-submission gating (re-runs everything plus checks the hero artifacts are fresh):
+Full verification (re-runs everything plus checks the hero artifacts are fresh):
 
 ```bash
-scripts/pre_submission_check.sh
+scripts/verify.sh
 ```
 
 The hero artifacts (`docs/figures/kartograf_map_*.html`) must exist and not be older

@@ -1,13 +1,12 @@
 # Kartograf
 
-> **Submission for the Google for Startups AI Agents Challenge — Track 1: Build**
 > *Plot the embeddings. See the gaps. Close them.*
 
 ---
 
-## 1. One-Sentence Pitch
+## 1. What Kartograf Is
 
-Kartograf is an autonomous ADK agent that audits another agent's eval suite by
+Kartograf is an autonomous agent that audits another agent's eval suite by
 **embedding every surface the agent exposes**, **plotting the embeddings in a 2D semantic
 map**, **finding the regions where the agent claims to do things its tests do not
 exercise**, and **proposing eval cases grounded in the real surfaces around each
@@ -67,20 +66,18 @@ already there — no external corpus, no labeled dataset, no production traces r
 
 ---
 
-## 4. Track Fit
+## 4. Why an Agent, Not a Pipeline
 
-**Track 1: Build (Net-New Agents).**
+Kartograf is autonomous. The orchestrator decides which surfaces to extract from the repo,
+picks the bandwidth for density estimation based on point spread, ranks gap regions by
+integrated gap density, decides how many candidates to retrieve from the neighborhood of
+each gap, validates generated cases, and writes new evals back through MCP. Every step is
+a runtime decision, logged for reproducibility.
 
-Kartograf is a net-new autonomous agent built on ADK. It uses Gemini for embeddings and
-generation, exposes its capabilities through MCP, and operates autonomously over a target
-repository to gather context, decide what to map, identify gaps mathematically, and
-propose new tests.
-
-It is not a static pipeline. The Kartograf orchestrator decides which surfaces to extract
-from the repo, picks the bandwidth for density estimation based on point spread, ranks gap
-regions by integrated gap density, decides how many candidates to retrieve from the
-neighborhood of each gap, validates generated cases, and writes new evals back through
-MCP. Every step is a runtime decision, logged for reproducibility.
+This matters because the right thresholds depend on the repo. A 50-surface agent and a
+500-surface agent both produce useful maps, but with different bandwidths, different
+top-K values, different rejection cutoffs. A static pipeline would either over-fit to one
+repo size or strand half its inputs.
 
 ---
 
@@ -223,8 +220,8 @@ the artifact that makes Kartograf an agent rather than a pipeline.
 ### 6.3 Sample orchestrator log
 
 The numbers in the log below are illustrative — drawn from the design budget for a
-customer-service-sized agent. The submission build replaces them with the real values
-from the end-to-end run on `python/agents/customer-service` (see §9.1).
+customer-service-sized agent. The committed hero artifacts (§9.1) carry real values from
+end-to-end runs.
 
 ```
 step 1  scan_repo       → 47 tool descriptions, 12 prompt sentences,
@@ -281,8 +278,7 @@ Kartograf plays two MCP roles.
 The provider role earns its place by being consumed end-to-end: a CI gate
 (`scripts/ci_coverage_gate.py`) reads `coverage_state` over MCP, fails the build if the
 score regressed against the repo's baseline, and posts the top-3 gap regions as a PR
-comment. This is shown in the demo (§9 step 5) so the panel sees the provider role used,
-not just declared.
+comment.
 
 ### Reference MCP servers
 
@@ -318,27 +314,25 @@ the validation step accepted it. Surfaced for developer review, never auto-commi
 
 ---
 
-## 9. Demo Plan
+## 9. The Map
 
-The demo is the map. The map is the demo.
+The map is the product.
 
-**Target agent:** `python/agents/customer-service` from `google/adk-samples`.
+**Reference target:** `python/agents/customer-service` from `google/adk-samples`.
 **Eval suite under audit:** the agent's shipped `customer-service.evalset.json`.
-**Surfaces extracted:** real surface count produced by §9.1's pre-submission run, not a
-target.
 
-### 9.1 Hero artifacts (gating)
+### 9.1 Hero artifacts
 
-The submission ships two heroes, both generated end-to-end by `kartograf map` and gated
-by `scripts/pre_submission_check.sh` (fails if either is missing or older than any source
-in `cartograph/`):
+The repo ships two reference maps, both generated end-to-end by `kartograf map` and
+verified by `scripts/verify.sh` (fails if either is missing or older than any source in
+`cartograph/`):
 
-| File | Target | Coverage | Story |
+| File | Target | Coverage | What it shows |
 |---|---|---:|---|
-| `docs/figures/kartograf_map_customer_service.html` | `customer-service` | 0.907 | Healthy case: 91 surfaces, 12 evals, 2 narrow gaps. Shows the tool finding gaps even on a comparatively well-tested agent. |
-| `docs/figures/kartograf_map_financial_advisor.html` | `financial-advisor` | 0.372 | Severe case: 246 surfaces, 1 eval. The map is mostly orange and purple with a single dominant red region around the `trading_analyst` subagent — visual story you can read in two seconds. |
+| `docs/figures/kartograf_map_customer_service.html` | `customer-service` | 0.907 | Healthy case: 91 surfaces, 12 evals, 2 narrow gaps. Kartograf finds gaps even on a comparatively well-tested agent. |
+| `docs/figures/kartograf_map_financial_advisor.html` | `financial-advisor` | 0.372 | Severe case: 246 surfaces, 1 eval. The map is mostly orange and purple with a single dominant red region around the `trading_analyst` subagent — visual story readable in two seconds. |
 
-Both are generated with real Gemini `gemini-embedding-001` (output_dimensionality=768).
+Both are generated with Gemini `gemini-embedding-001` (output_dimensionality=768).
 
 The figure shows the 2D map with:
 
@@ -346,12 +340,7 @@ The figure shows the 2D map with:
 - eval points (different color, different marker)
 - gap regions shaded by integrated $g$ mass, top-3 labeled with their bounding surfaces
 
-If the maps are illegible — points overlap, gaps are diffuse, no clear visual story —
-the team learns this **before** the panel does, and either tunes parameters, picks a
-different demo target, or rewrites the framing. The proposal does not pre-commit to a
-coverage delta until the artifacts exist.
-
-Pre-screenshot expected appearance, for the team's benefit:
+Schematic:
 
 ```
                               ▲ UMAP-2
@@ -372,33 +361,32 @@ Pre-screenshot expected appearance, for the team's benefit:
 ```
 
 `R1` and `R2` are the gap regions: surface-dense, eval-empty. The Generator targets these
-two first.
+first.
 
-### Demo arc (4 minutes)
+### 9.2 Walkthrough
 
-| Time | Beat |
+| Step | What happens |
 |---|---|
-| 0:00–0:30 | **Framing.** Open the agent's repo. Show the eval suite — 18 cases, 92% pass rate. Pose: "the eval suite exercises what the team imagined. The agent's tool schemas, prompts, and docstrings declare what it actually claims to do. How much overlap is there?" |
-| 0:30–1:30 | **Run Kartograf.** `kartograf audit --target python/agents/customer-service`. Live decision log streams: scan_repo → 148 surfaces, invoke_mapper, load_evals, invoke_auditor → coverage = 0.43. |
-| 1:30–2:30 | **Open the map.** Browser pops to the 2D HTML. Visible immediately: a dense cluster of orange (surfaces) with no blue (evals) on it. Hover the cluster: refund-related tool descriptions and prompt sentences. The hole is **literally visible**. |
-| 2:30–3:15 | **Generator runs in front of the audience.** Real candidate count, real rejections with reasons shown, real acceptances. Click an accepted candidate: see the surfaces it was grounded in, see the proposed eval case JSON. |
-| 3:15–3:35 | **Re-audit.** New evals merged. Coverage delta is the real delta from §9.1's run, not a target. The map redrawn: the surface cluster from step 3 is now overlaid with eval markers. |
-| 3:35–3:45 | **CI gate live.** `python scripts/ci_coverage_gate.py` runs against the repo, reads `coverage_state` over MCP, posts a PR comment with top-3 gap regions. This is the second MCP role used end-to-end. |
-| 3:45–4:00 | **Close.** *"The eval suite passed. The map showed what the suite never asked. Plot the embeddings, see the gaps, close them — without ever leaving the repo."* |
+| 1 | Open the agent's repo. The shipped eval suite has 18 cases, 92% pass rate. The agent's tool schemas, prompts, and docstrings declare a wider conceptual surface. |
+| 2 | Run `kartograf map --target python/agents/customer-service`. The decision log streams: scan_repo → ~150 surfaces, invoke_mapper, load_evals, invoke_auditor → coverage. |
+| 3 | Open the map in a browser. A dense cluster of orange (surfaces) with no cyan (evals) on it is immediately visible. Hover: refund-related tool descriptions and prompt sentences. The hole is literally on screen. |
+| 4 | Generator runs: real candidate count, real rejections with reasons shown, real acceptances. Click an accepted candidate: see the surfaces it was grounded in and the proposed BDD eval case. |
+| 5 | Merge new evals. Re-run. Coverage updates. The map redrawn: the surface cluster from step 3 is now overlaid with eval markers. |
+| 6 | The CI gate (`scripts/ci_coverage_gate.py`) reads `coverage_state` over MCP, fails the build if coverage regressed against baseline, and posts the top-3 gap regions as a PR comment. |
 
-The 2D map is what the judges remember. The math is what holds it up.
+The 2D map carries the story. The math holds it up.
 
 ---
 
-## 10. Why This Wins on Track 1's Criteria
+## 10. Why This Works
 
-| Track 1 requirement | How Kartograf delivers |
+| Aspect | How Kartograf delivers |
 |---|---|
-| Net-new autonomous agent | Multi-agent ADK system, root orchestrator, three specialized sub-agents, built from scratch |
-| Built with ADK | Yes — root agent, three sub-agents, shared state, all in ADK |
-| Uses MCP to connect to external tools | Two MCP roles: client (`repo_reader`, `eval_io`) and provider (`coverage_state`). Six reference MCP servers shipped. |
-| Gathers context and executes tasks autonomously | Root agent decides surface kinds, KDE bandwidth, gap targeting, candidate counts, validation thresholds, termination — every decision logged |
-| Drives real business results | Turns "did I write enough tests?" from a vibes question into a metric: integrated gap mass over the agent's own declared surface area, with proposed fixes attached |
+| Autonomous agent | Root orchestrator with three specialized sub-agents (Mapper, Auditor, Generator) and a shared state object |
+| ADK-native | Root agent, three sub-agents, shared state, all in ADK |
+| MCP integration | Two roles: client (`repo_reader`, `eval_io`) and provider (`coverage_state`). Six reference MCP servers shipped. |
+| Decisions, not steps | Orchestrator decides surface kinds, KDE bandwidth, gap targeting, candidate counts, validation thresholds, termination — every decision logged |
+| Real signal | Turns "did I write enough tests?" from a vibes question into a metric: integrated gap mass over the agent's own declared surface area, with proposed fixes attached |
 
 The differentiator: **the math runs on the repo alone**. No corpus to source, no dataset
 to license, no production traffic to capture. The product is installable on any ADK agent
@@ -449,7 +437,7 @@ Kartograf is the first layer of a complete agent quality stack.
 
 | Layer | What it answers | Status |
 |---|---|---|
-| **L1 — Surface coverage** | Does the eval suite exercise what the agent claims to do? | **This submission** |
+| **L1 — Surface coverage** | Does the eval suite exercise what the agent claims to do? | **Shipped** |
 | L2 — Behavioral coverage | Does the agent reason correctly inside each surface? | Roadmap |
 | L3 — Trajectory coverage | Do the agent's tool-call sequences match successful production paths? | Roadmap |
 | L4 — Policy and release gates | Can coverage thresholds block a deploy in CI? | Roadmap |
@@ -493,7 +481,7 @@ cartograph/
 
 ---
 
-## 14. Beyond the Hackathon
+## 14. Roadmap
 
 The same agent can audit eval suites for any framework where surfaces and evals can be
 extracted: LangChain agents (tool decorators + system prompts), CrewAI crews (role
@@ -501,26 +489,14 @@ descriptions + task definitions), OpenAI evals (system messages + ideal response
 any custom YAML/JSONL agent definition. Each new framework needs one `repo_reader`
 adapter — no rewrite.
 
-The post-hackathon path is Track 3: the 2D map becomes a hosted artifact. Push a commit,
-get a URL to a fresh map of your agent. Diff two maps across commits to see which surfaces
-your refactor added or removed and which gaps opened. The coverage score becomes a
-pull-request check; the map becomes a review surface engineers actually want to look at,
-not another dashboard they ignore.
+A natural deployment shape is the 2D map as a hosted artifact: push a commit, get a URL
+to a fresh map of the agent. Diff two maps across commits to see which surfaces a
+refactor added or removed and which gaps opened. The coverage score becomes a
+pull-request check; the map becomes a review surface engineers actually want to look
+at, not another dashboard they ignore.
 
 The thesis the visual makes inevitable: **eval suites should be reviewed the way design
 mocks are reviewed — by looking at them.** Pass rates do not lend themselves to glance
-inspection; a 2D semantic map does. Kartograf is the first product that lets a reviewer
+inspection; a 2D semantic map does. Kartograf is the first tool that lets a reviewer
 say *"the test suite has a hole in the upper-right"* and have everyone in the room agree
 on what that means.
-
----
-
-## 15. Submission Details
-
-- **Track:** Track 1 — Build
-- **Submitter:** Solo
-- **Organization:** Station932
-- **Country:** Germany
-- **Funding stage:** [to be filled per form]
-
----
